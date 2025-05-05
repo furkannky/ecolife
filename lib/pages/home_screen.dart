@@ -60,7 +60,8 @@ class HomeScreen extends StatelessWidget {
                 duration: const Duration(milliseconds: 800),
                 child: Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   elevation: 3,
                   color: Colors.white.withOpacity(0.8),
                   child: Padding(
@@ -89,8 +90,9 @@ class HomeScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KarbonAyakIziBilgiEkrani(),
+                                  builder:
+                                      (context) =>
+                                          const KarbonAyakIziBilgiEkrani(),
                                 ),
                               );
                             },
@@ -153,6 +155,13 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _menuKarti(
                         context,
+                        "Ürün Bilgisi Al",
+                        Icons.qr_code_scanner,
+                        "/urun-bilgisi",
+                        delay: const Duration(milliseconds: 1800),
+                      ),
+                      _menuKarti(
+                        context,
                         "Skorlarım",
                         Icons.bar_chart,
                         "/skor",
@@ -205,7 +214,9 @@ class HomeScreen extends StatelessWidget {
           Navigator.pushNamed(context, rota);
         },
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           elevation: 5,
           color: Colors.white,
           child: Center(
@@ -216,7 +227,10 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 15),
                 Text(
                   baslik,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],

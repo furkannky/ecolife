@@ -1,3 +1,4 @@
+import 'package:ecolife/pages/qr_scanner_screen.dart';
 import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'EcoLife',
-      home: const LoginScreen(),
+      home:  LoginScreen(),
       routes: {
         '/home': (context) => HomeScreen(kullaniciAdi: ''),
         '/profil': (context) => const ProfilScreen(),
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/harita': (context) => const HaritaEkrani(),
         '/egitim': (context) => EcoEducationScreen(), // ✅ Eco Eğitim rotası
         '/yemek-tahmin': (context) => const YemekTahminScreen(), // bunu ekle
+        '/urun-bilgisi': (context) => UrunBilgisiAlmaEkran(), // İşte yeni rota!
       },
     );
   }

@@ -36,9 +36,9 @@ samples, guidance on mobile development, and a full API reference. -->
 ## 📸 Uygulama Görselleri
 
 Giriş Ekranı:  
-![Giriş](assets/images/login.png)
+![Giriş](assets/images/login-min.png)
 kayıt Ekranı:  
-![Giriş](assets/images/register.png)
+![Giriş](assets/images/register-min.png)
 
 Ana Ekran:  
 ![Ana](assets/images/home.png)

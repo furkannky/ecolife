@@ -37,27 +37,35 @@ samples, guidance on mobile development, and a full API reference. -->
 
 Giriş Ekranı:  
 ![Giriş](assets/images/login.png)
+kayıt Ekranı:  
+![Giriş](assets/images/register.png)
 
 Ana Ekran:  
-![Ana](screenshots/home_screen.png)
+![Ana](assets/images/home.png)
 
 Akıllı Mutfak:  
-![Mutfak](screenshots/kitchen_screen.png)
+![Mutfak](assets/images/akilliMutfak1.png)
 
 Tarif Önerileri:  
-![Tarif](screenshots/recipe_screen.png)
+![Tarif](assets/images/tarif.png)
 
 Yaşam Haritası:  
-![Harita](screenshots/map_screen.png)
+![Harita](assets/images/map1.png)
+Yaşam Haritası:  
+![Harita](assets/images/map1.1.png)
+
 
 Yeşil Ulaşım:  
-![Ulaşım](screenshots/transport_screen.png)
+![Ulaşım](assets/images/ulasim1.png)
+Yeşil Ulaşım:  
+![Ulaşım](assets/images/ulasim1.1.png)
 
 Ürün Bilgisi:  
-![Ürün](screenshots/product_info_screen.png)
-
+![Ürün](assets/images/qr1.png)
+Ürün Bilgisi:  
+![Ürün](assets/images/qr1.1.png)
 Profil:  
-![Profil](screenshots/profile_screen.png)
+![Profil](assets/images/profil.png)
 
 ---
 

@@ -56,7 +56,7 @@ class _DolabimScreenState extends State<DolabimScreen> {
               padding: const EdgeInsets.all(20),
               child: FadeInDown(
                 duration: const Duration(milliseconds: 1000),
-                child: const Text("Dolabım",
+                child: const Text("Akıllı Mutfak",
                     style: TextStyle(color: Colors.white, fontSize: 40)),
               ),
             ),

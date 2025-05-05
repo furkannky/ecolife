@@ -3,7 +3,6 @@ import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// Sayfa importları
 import 'package:ecolife/pages/login_screen.dart';
 import 'package:ecolife/pages/home_screen.dart';
 import 'package:ecolife/pages/profil_screen.dart';
@@ -12,7 +11,7 @@ import 'package:ecolife/pages/tarif_screen.dart';
 import 'package:ecolife/pages/skor_screen.dart';
 import 'package:ecolife/pages/ulasim_tercihi.dart';
 import 'package:ecolife/pages/maps.dart';
-import 'package:ecolife/pages/eco_education_screen.dart'; // ✅ Eco Eğitim sayfası importu
+import 'package:ecolife/pages/eco_education_screen.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,9 +46,9 @@ class MyApp extends StatelessWidget {
         '/skor': (context) => const SkorScreen(),
         '/ulasim': (context) => const UlasimAsistaniScreen(),
         '/harita': (context) => const HaritaEkrani(),
-        '/egitim': (context) => EcoEducationScreen(), // ✅ Eco Eğitim rotası
-        '/yemek-tahmin': (context) => const YemekTahminScreen(), // bunu ekle
-        '/urun-bilgisi': (context) => UrunBilgisiAlmaEkran(), // İşte yeni rota!
+        '/egitim': (context) => EcoEducationScreen(), 
+        '/yemek-tahmin': (context) => const YemekTahminScreen(), 
+        '/urun-bilgisi': (context) => UrunBilgisiAlmaEkran(), 
       },
     );
   }

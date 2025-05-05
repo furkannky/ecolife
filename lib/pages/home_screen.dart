@@ -127,54 +127,54 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       _menuKarti(
                         context,
-                        "Yemek Tahmin",
+                        "🌱 Akıllı Mutfak",
                         Icons.fastfood,
                         "/dolabim",
                         delay: const Duration(milliseconds: 200),
                       ),
                       _menuKarti(
                         context,
-                        "Eco Eğitim",
+                        "📚 Eco Eğitim",
                         Icons.school,
                         "/egitim",
                         delay: const Duration(milliseconds: 1400),
                       ),
                       _menuKarti(
                         context,
-                        "Harita",
+                        "🗺️ Yaşam Haritam",
                         Icons.map,
                         "/harita",
                         delay: const Duration(milliseconds: 1200),
                       ),
                       _menuKarti(
                         context,
-                        "Ulaşım Asistanı",
+                        "🚗 Yeşil Ulaşım",
                         Icons.directions_car,
                         "/ulasim",
                         delay: const Duration(milliseconds: 1000),
                       ),
                       _menuKarti(
                         context,
-                        "Ürün Bilgisi Al",
+                        "🔍 Ürün Tarayıcı",
                         Icons.qr_code_scanner,
                         "/urun-bilgisi",
                         delay: const Duration(milliseconds: 1800),
                       ),
                       _menuKarti(
                         context,
-                        "Profilim",
+                        "👤 Profilim",
                         Icons.person,
                         "/profil",
                         delay: const Duration(milliseconds: 800),
                       ),
                       _menuKarti(
                         context,
-                        "Skorlarım",
+                        "📊 Skorlarım",
                         Icons.bar_chart,
                         "/skor",
                         delay: const Duration(milliseconds: 600),
                       ),
-                      
+
                       _menuKarti(
                         context,
                         "Tarif Öner",
@@ -182,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                         "/tarif",
                         delay: const Duration(milliseconds: 400),
                       ),
-/*                       _menuKarti(
+                      /*                       _menuKarti(
                         context,
                         "Yemek Tahmin",
                         Icons.fastfood,

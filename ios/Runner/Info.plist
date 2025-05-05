@@ -29,10 +29,6 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Uygulama konumunuzu görmek istiyor.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Uygulama her zaman konumunuzu görmek istiyor.</string>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
@@ -45,6 +41,19 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+	<!-- Konum İzinleri -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Uygulama konumunuzu görmek istiyor.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Uygulama her zaman konumunuzu görmek istiyor.</string>
+
+	<!-- Kamera ve Galeri İzinleri -->
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to capture images of ingredients.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to select ingredient images.</string>
+
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

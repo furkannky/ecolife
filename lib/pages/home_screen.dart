@@ -1,12 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'maps.dart'; // Import satırı EKLENDİ
-import 'karbon_ayak_izi_bilgi_ekrani.dart'; // Bilgilendirme ekranı importu
-import 'eco_education_screen.dart'; // ✅ Eco Eğitim sayfası importu
+import 'maps.dart';
+import 'karbon_ayak_izi_bilgi_ekrani.dart';
+import 'eco_education_screen.dart';
+import '../services/api_service.dart'; // ✅ API servisi importu
 
 class HomeScreen extends StatelessWidget {
   final String kullaniciAdi;
-  final String? ulasimTercihi; // Ulaşım tercihini alacak değişken
+  final String? ulasimTercihi;
 
   const HomeScreen({super.key, required this.kullaniciAdi, this.ulasimTercihi});
 
@@ -131,10 +132,24 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _menuKarti(
                         context,
-                        "Tarif Öner",
-                        Icons.receipt,
-                        "/tarif",
-                        delay: const Duration(milliseconds: 400),
+                        "Eco Eğitim",
+                        Icons.school,
+                        "/egitim",
+                        delay: const Duration(milliseconds: 1400),
+                      ),
+                      _menuKarti(
+                        context,
+                        "Harita",
+                        Icons.map,
+                        "/harita",
+                        delay: const Duration(milliseconds: 1200),
+                      ),
+                      _menuKarti(
+                        context,
+                        "Ulaşım Asistanı",
+                        Icons.directions_car,
+                        "/ulasim",
+                        delay: const Duration(milliseconds: 1000),
                       ),
                       _menuKarti(
                         context,
@@ -152,24 +167,17 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _menuKarti(
                         context,
-                        "Ulaşım Asistanı",
-                        Icons.directions_car,
-                        "/ulasim",
-                        delay: const Duration(milliseconds: 1000),
+                        "Tarif Öner",
+                        Icons.receipt,
+                        "/tarif",
+                        delay: const Duration(milliseconds: 400),
                       ),
                       _menuKarti(
                         context,
-                        "Harita",
-                        Icons.map,
-                        "/harita",
-                        delay: const Duration(milliseconds: 1200),
-                      ),
-                      _menuKarti( // ✅ Eco Eğitim Kartı
-                        context,
-                        "Eco Eğitim",
-                        Icons.school,
-                        "/egitim", // Eco Eğitim sayfasının rotası
-                        delay: const Duration(milliseconds: 1400),
+                        "Yemek Tahmin",
+                        Icons.fastfood,
+                        "/yemek-tahmin", // ✅ Yeni ekran rotası
+                        delay: const Duration(milliseconds: 1600),
                       ),
                     ],
                   ),

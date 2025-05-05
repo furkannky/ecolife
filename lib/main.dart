@@ -1,3 +1,4 @@
+import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/ulasim': (context) => const UlasimAsistaniScreen(),
         '/harita': (context) => const HaritaEkrani(),
         '/egitim': (context) => EcoEducationScreen(), // ✅ Eco Eğitim rotası
+        '/yemek-tahmin': (context) => const YemekTahminScreen(), // bunu ekle
       },
     );
   }

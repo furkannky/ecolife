@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -64,13 +65,32 @@ Future<void> _authAction() async {
     );
   }
 
-  Future<void> _signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+Future<void> _signUp() async {
+  try {
+    // Firebase Authentication ile kullanıcı kaydı
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
+    
+    // Firestore'a veri ekle
+    String uid = userCredential.user!.uid;
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'email': emailController.text.trim(),
+      'score': 0,
+      'badges': [],
+    });
+
+    // Başarılı kayıt mesajı
     _showSuccess("Kayıt başarılı! Giriş yapabilirsiniz");
+  } on FirebaseAuthException catch (e) {
+    _showError(e.message ?? "Bir hata oluştu");
+  } catch (e) {
+    _showError("Beklenmedik hata: $e");
   }
+}
+
 
   void _showError(String message) {
     if (!mounted) return;

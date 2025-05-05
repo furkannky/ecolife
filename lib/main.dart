@@ -1,3 +1,4 @@
+import 'package:ecolife/pages/community_screen.dart';
 import 'package:ecolife/pages/qr_scanner_screen.dart';
 import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
         '/egitim': (context) => EcoEducationScreen(), 
         '/yemek-tahmin': (context) => const YemekTahminScreen(), 
         '/urun-bilgisi': (context) => UrunBilgisiAlmaEkran(), 
+        '/EcoLife Topluluğu': (context) => CommunityScreen(), 
+
       },
     );
   }

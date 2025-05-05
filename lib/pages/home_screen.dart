@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:ecolife/models/user_data.dart';
+import 'package:ecolife/pages/community_screen.dart';
 import 'package:flutter/material.dart';
 import 'maps.dart';
 import 'karbon_ayak_izi_bilgi_ekrani.dart';
@@ -127,6 +129,14 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       _menuKarti(
                         context,
+                        "Topluluk",
+                        Icons.group,
+                        "/EcoLife Topluluğu",
+                        delay: const Duration(milliseconds: 200),
+                      ),
+
+                      _menuKarti(
+                        context,
                         "🌱 Akıllı Mutfak",
                         Icons.fastfood,
                         "/dolabim",
@@ -174,21 +184,6 @@ class HomeScreen extends StatelessWidget {
                         "/skor",
                         delay: const Duration(milliseconds: 600),
                       ),
-
-                      _menuKarti(
-                        context,
-                        "Tarif Öner",
-                        Icons.receipt,
-                        "/tarif",
-                        delay: const Duration(milliseconds: 400),
-                      ),
-                      /*                       _menuKarti(
-                        context,
-                        "Yemek Tahmin",
-                        Icons.fastfood,
-                        "/yemek-tahmin", // ✅ Yeni ekran rotası
-                        delay: const Duration(milliseconds: 1600),
-                      ), */
                     ],
                   ),
                 ),

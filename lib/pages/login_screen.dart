@@ -23,31 +23,39 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _authAction() async {
-    if (!_formKey.currentState!.validate()) return;
+Future<void> _authAction() async {
+  if (!_formKey.currentState!.validate()) return;
 
-    setState(() => isLoading = true);
+  setState(() => isLoading = true);
 
-    try {
-      if (isLogin) {
-        await _signIn();
-      } else {
-        await _signUp();
-      }
+  try {
+    if (isLogin) {
+      await _signIn();
 
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/home');
       }
-    } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Bir hata oluştu");
-    } catch (e) {
-      _showError("Beklenmedik hata: $e");
-    } finally {
+    } else {
+      await _signUp();
+
+      // Kayıt sonrası otomatik yönlendirme yok, sadece mesaj gösteriliyor
       if (mounted) {
-        setState(() => isLoading = false);
+        setState(() {
+          isLogin = true; // Kayıt sonrası giriş moduna geç
+        });
       }
     }
+  } on FirebaseAuthException catch (e) {
+    _showError(e.message ?? "Bir hata oluştu");
+  } catch (e) {
+    _showError("Beklenmedik hata: $e");
+  } finally {
+    if (mounted) {
+      setState(() => isLoading = false);
+    }
   }
+}
+
 
   Future<void> _signIn() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(

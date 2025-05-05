@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.green.shade900,
         title: const Text(
-          'ECOLİFE',
+          '𝐄𝐂𝐎𝐋İ𝐅𝐄',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -127,8 +127,8 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       _menuKarti(
                         context,
-                        "Dolabım",
-                        Icons.kitchen,
+                        "Yemek Tahmin",
+                        Icons.fastfood,
                         "/dolabim",
                         delay: const Duration(milliseconds: 200),
                       ),
@@ -162,13 +162,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _menuKarti(
                         context,
-                        "Skorlarım",
-                        Icons.bar_chart,
-                        "/skor",
-                        delay: const Duration(milliseconds: 600),
-                      ),
-                      _menuKarti(
-                        context,
                         "Profilim",
                         Icons.person,
                         "/profil",
@@ -176,18 +169,26 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _menuKarti(
                         context,
+                        "Skorlarım",
+                        Icons.bar_chart,
+                        "/skor",
+                        delay: const Duration(milliseconds: 600),
+                      ),
+                      
+                      _menuKarti(
+                        context,
                         "Tarif Öner",
                         Icons.receipt,
                         "/tarif",
                         delay: const Duration(milliseconds: 400),
                       ),
-                      _menuKarti(
+/*                       _menuKarti(
                         context,
                         "Yemek Tahmin",
                         Icons.fastfood,
                         "/yemek-tahmin", // ✅ Yeni ekran rotası
                         delay: const Duration(milliseconds: 1600),
-                      ),
+                      ), */
                     ],
                   ),
                 ),

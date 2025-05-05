@@ -30,9 +30,18 @@ class EcoEducationScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: FadeInDown(
                 duration: const Duration(milliseconds: 1000),
-                child: const Text(
-                  "Eco Eğitim",
-                  style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Eco Eğitim",
+                      style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Eco Eğitim sayfasında kullanabileceğiniz eğitimleri bulabilirsiniz.",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
             ),

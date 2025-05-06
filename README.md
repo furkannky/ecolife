@@ -36,38 +36,44 @@ samples, guidance on mobile development, and a full API reference. -->
 ## 📸 Uygulama Görselleri
 
 Giriş Ekranı:  
-![Giriş](assets/images/login-min.png)
+![Giriş](assets/imagess/login.png)
 Ana Ekran:  
-![Ana](assets/images/home1.png)
-<!-- kayıt Ekranı:  
-![Giriş](assets/images/register-min.png)
+![Ana](assets/imagess/home.png)
+kayıt Ekranı:  
+![Giriş](assets/imagess/register-min.png)
+
+topluluk:  
+![topluluk](assets/imagess/topluluk.png)
+![chat](assets/imagess/chat.png)
+![event](assets/imagess/event.png)
+
 
 
 
 Akıllı Mutfak:  
-![Mutfak](assets/images/akilliMutfak1.png)
+![Mutfak](assets/imagess/akilliMutfak1.png)
 
 Tarif Önerileri:  
-![Tarif](assets/images/tarif.png)
+![Tarif](assets/imagess/tarif.png)
 
 Yaşam Haritası:  
-![Harita](assets/images/map1.png)
+![Harita](assets/imagess/map1.png)
 Yaşam Haritası:  
-![Harita](assets/images/map1.1.png)
+![Harita](assets/imagess/map1.1.png)
 
 
 Yeşil Ulaşım:  
-![Ulaşım](assets/images/ulasim1.png)
+![Ulaşım](assets/imagess/ulasim1.png)
 Yeşil Ulaşım:  
-![Ulaşım](assets/images/ulasim1.1.png)
+![Ulaşım](assets/imagess/ulasim1.1.png)
 
 Ürün Bilgisi:  
-![Ürün](assets/images/qr1.png)
+![Ürün](assets/imagess/qr1.png)
 Ürün Bilgisi:  
 ![Ürün](assets/images/qr1.1.png)
 Profil:  
-![Profil](assets/images/profil.png)
- -->
+![Profil](assets/imagess/profil.png)
+
 ---
 
 ## 🎥 Tanıtım Videosu

@@ -35,12 +35,11 @@ samples, guidance on mobile development, and a full API reference. -->
 
 ## 📸 Uygulama Görselleri
 
-Giriş Ekranı:  
-![Giriş](assets/imagess/login.png)
+Giriş-kayıt Ekranı:  
+![Giriş](assets/imagess/login.png)  
+![Giriş](assets/imagess/register-min.png)
 Ana Ekran:  
 ![Ana](assets/imagess/home.png)
-kayıt Ekranı:  
-![Giriş](assets/imagess/register-min.png)
 
 topluluk:  
 ![topluluk](assets/imagess/topluluk.png)
@@ -58,19 +57,16 @@ Tarif Önerileri:
 
 Yaşam Haritası:  
 ![Harita](assets/imagess/map1.png)
-Yaşam Haritası:  
 ![Harita](assets/imagess/map1.1.png)
 
 
 Yeşil Ulaşım:  
-![Ulaşım](assets/imagess/ulasim1.png)
-Yeşil Ulaşım:  
+![Ulaşım](assets/imagess/ulasim1.png)  
 ![Ulaşım](assets/imagess/ulasim1.1.png)
 
 Ürün Bilgisi:  
-![Ürün](assets/imagess/qr1.png)
-Ürün Bilgisi:  
-![Ürün](assets/images/qr1.1.png)
+![Ürün](assets/imagess/qr1.png) 
+![Ürün](assets/imagess/qr1.1.png)
 Profil:  
 ![Profil](assets/imagess/profil.png)
 

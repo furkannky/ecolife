@@ -37,11 +37,12 @@ samples, guidance on mobile development, and a full API reference. -->
 
 Giriş Ekranı:  
 ![Giriş](assets/images/login-min.png)
+Ana Ekran:  
+![Ana](assets/images/home1.png)
 <!-- kayıt Ekranı:  
 ![Giriş](assets/images/register-min.png)
 
-Ana Ekran:  
-![Ana](assets/images/home1.png)
+
 
 Akıllı Mutfak:  
 ![Mutfak](assets/images/akilliMutfak1.png)

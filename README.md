@@ -74,7 +74,7 @@ Profil:
 
 ## 🎥 Tanıtım Videosu
 
-[YouTube'da İzle](https://www.youtube.com/watch?v=örnekVideoID)
+[YouTube'da İzle](https://youtu.be/WGD-bWtONIs)
 
 ---
 

@@ -67,8 +67,10 @@ Yeşil Ulaşım:
 Ürün Bilgisi:  
 ![Ürün](assets/imagess/qr1.png) 
 ![Ürün](assets/imagess/qr1.1.png)
-Profil:  
+Profil-skor:  
 ![Profil](assets/imagess/profil.png)
+![skor](assets/imagess/skor.png)
+
 
 ---
 

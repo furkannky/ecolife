@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference. -->
 # 🌱 EcoLife – Sürdürülebilir Yaşam Asistanı
 
-**EcoLife**, bireylerin sürdürülebilir yaşam alışkanlıkları geliştirmesine yardımcı olan bir mobil uygulamadır. Yapay zeka destekli özellikleriyle kullanıcıların karbon ayak izini azaltmasına, daha çevreci tercihler yapmasına ve sürdürülebilir bir yaşam tarzı benimsemesine katkı sağlar.
+**EcoLife**, bireylerin sürdürülebilir yaşam alışkanlıkları geliştirmesini sağlayan yapay zeka destekli bir mobil asistandır. Kullanıcıların beslenme ve ulaşım tercihlerine çevreci alternatifler sunarken, akıllı tarif önerileri, kişiselleştirilmiş yaşam haritası ve karbon puanı sistemiyle günlük rutinlerini optimize eder. Eğitim içerikleriyle farkındalık kazandırır, topluluk desteğiyle motive eder ve bilinçli tüketimi teşvik ederek çevre dostu bir yaşamı erişilebilir kılar
 
 ---
 
@@ -27,6 +27,7 @@ samples, guidance on mobile development, and a full API reference. -->
 - 🍳 **Akıllı Mutfak**: Kullanıcının elindeki malzemelere göre sürdürülebilir tarifler önerir
 - 📚 **Eğitim Ekranı**: Sürdürülebilirlik ve çevre bilinciyle ilgili videolar izlenebilir
 - 🗺️ **Yaşam Haritası**: Yapay zeka, kullanıcının aradığı mekanlarla ilgili konumları ve türevlerini sunar
+- 👥 **Topluluk Ekranı**: Kullanıcılar tarif paylaşabilir, yorum yapabilir, etkinliklere katılabilir
 - 🚲 **Yeşil Ulaşım**: Kullanıcının tercihlerine göre en uygun çevreci ulaşım aracını önerir
 - 📦 **QR / Manuel Ürün Ekleme**: Eklenen ürün hakkında yapay zeka ile sürdürülebilirlik ve karbon ayak izi bilgisi verir
 - 👤 **Profil ve Skorlar**: Kullanıcının başarıları, karbon ayak izi skoru ve kişisel gelişimi takip edilir
@@ -37,7 +38,7 @@ samples, guidance on mobile development, and a full API reference. -->
 
 Giriş-kayıt Ekranı:  
 ![Giriş](assets/imagess/login.png)  
-![Giriş](assets/imagess/register-min.png)
+![Giriş](assets/imagess/register.png)
 Ana Ekran:  
 ![Ana](assets/imagess/home.png)
 
@@ -49,11 +50,10 @@ topluluk:
 
 
 
-Akıllı Mutfak:  
+Akıllı Mutfak -Tarif Önerileri:  
 ![Mutfak](assets/imagess/akilliMutfak1.png)
-
-Tarif Önerileri:  
 ![Tarif](assets/imagess/tarif.png)
+
 
 Yaşam Haritası:  
 ![Harita](assets/imagess/map1.png)
@@ -61,15 +61,17 @@ Yaşam Haritası:
 
 
 Yeşil Ulaşım:  
-![Ulaşım](assets/imagess/ulasim1.png)  
+![Ulaşım](assets/imagess/ulasim1.png)
 ![Ulaşım](assets/imagess/ulasim2.png)
+
+
 
 Ürün Bilgisi:  
 ![Ürün](assets/imagess/qr1.png) 
 ![Ürün](assets/imagess/qr1.1.png)
 Profil-skor:  
 ![Profil](assets/imagess/profil.png)
-![skor](assets/imagess/skor.png)
+![Skor](assets/imagess/skor.png)
 
 
 ---

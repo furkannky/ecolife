@@ -62,7 +62,7 @@ Yaşam Haritası:
 
 Yeşil Ulaşım:  
 ![Ulaşım](assets/imagess/ulasim1.png)  
-![Ulaşım](assets/imagess/ulasim1.1.png)
+![Ulaşım](assets/imagess/ulasim2.png)
 
 Ürün Bilgisi:  
 ![Ürün](assets/imagess/qr1.png) 

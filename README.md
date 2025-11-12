@@ -89,3 +89,5 @@ git clone https://github.com/kullaniciAdi/ecolife.git
 cd ecolife
 flutter pub get
 flutter run
+
+https://drive.google.com/drive/u/0/mobile/folders/1LAnN8X26tVHhp1jvLyR5Rd8dk62oIAkf/1D1jR3jOtsAE29BaCDnssemk10sVoD-w6?usp=sharing&sort=13&direction=a

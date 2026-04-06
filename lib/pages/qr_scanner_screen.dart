@@ -42,16 +42,20 @@ class _UrunBilgisiAlmaEkranState extends State<UrunBilgisiAlmaEkran> {
     });
     try {
       final bilgi = await GeminiService.urunBilgisiAl(urunAdi);
-      setState(() {
-        _urunBilgisi = bilgi;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _urunBilgisi = bilgi;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       print('Ürün bilgisi alınırken hata oluştu: $e');
-      setState(() {
-        _urunBilgisi = 'Ürün bilgisi alınırken bir hata oluştu.';
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _urunBilgisi = 'Ürün bilgisi alınırken bir hata oluştu.';
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -198,12 +202,14 @@ class _UrunBilgisiAlmaEkranState extends State<UrunBilgisiAlmaEkran> {
                                           barcodes.first.rawValue != null) {
                                         final String? scannedValue =
                                             barcodes.first.rawValue;
-                                        setState(() {
-                                          qrSonucu = scannedValue;
-                                          _urunBilgisiniAl(scannedValue!);
-                                          _isScanning = false;
-                                          _qrOkumaAktif = false;
-                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            qrSonucu = scannedValue;
+                                            _urunBilgisiniAl(scannedValue!);
+                                            _isScanning = false;
+                                            _qrOkumaAktif = false;
+                                          });
+                                        }
                                       }
                                     } catch (e) {
                                       print('Hata: $e');

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GeminiService {
-  static const String _apiKey = 'AIzaSyCfFn-fTTreQCw9fSSBNcsr588Tva42z_s';
+  static const String _apiKey = 'AIzaSyAq_WiZ8WW7zbrMiE96MEmgkLHYN9tFgaQ';
   static const String _endpoint =
-      'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=$_apiKey';
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$_apiKey';
 
   /// Malzemelere göre yemek tarifi öneren fonksiyon
   static Future<String> tarifOner(List<String> malzemeler) async {

@@ -3,7 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../services/gemini_service.dart'; // bunu eklemeyi unutma
+import '../services/gemini_service.dart';
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
 
 class TarifEkrani extends StatefulWidget {
   final List<String> malzemeler;
@@ -99,152 +102,187 @@ class _TarifEkraniState extends State<TarifEkrani> {
 
   Future<void> _aiTarifleriGetir() async {
     final yanit = await GeminiService.tarifOner(widget.malzemeler);
-    setState(() {
-      aiTarifler = yanit;
-      yukleniyor = false;
-    });
+    if (mounted) {
+      setState(() {
+        aiTarifler = yanit;
+        yukleniyor = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Colors.green.shade900,
-              Colors.green.shade800,
-              Colors.green.shade400,
-            ],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: FadeIn(
-            duration: const Duration(milliseconds: 1000),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 50),
-                  FadeInDown(
-                    duration: const Duration(milliseconds: 800),
-                    child: const Text(
-                      "Tarif ve Karbon Analizi",
-                      style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+      backgroundColor: AppTheme.background,
+      body: OrganicBackground(
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 200),
-                    duration: const Duration(milliseconds: 800),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                             Text(
-                              "Karbon Ayak İzi Tahmini:",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green.shade700),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "${karbon.toStringAsFixed(2)} kg CO₂e",
-                              style: const TextStyle(fontSize: 24),
-                            ),
-                          ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: FadeInDown(
+                        duration: const Duration(milliseconds: 1000),
+                        child: Text(
+                          'Tarif ve Analiz',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: AppTheme.primaryGreen,
+                                fontWeight: FontWeight.w900,
+                              ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 400),
-                    duration: const Duration(milliseconds: 800),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                             Text(
-                              "Eşleşen Yerel Tarifler:",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green.shade700),
-                            ),
-                            const SizedBox(height: 8),
-                            eslesenTarifler.isEmpty
-                                ? const Text("Uygun tarif bulunamadı.")
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: eslesenTarifler
-                                        .map((tarif) => Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4.0),
-                                              child: Text("- $tarif",
-                                                  style: const TextStyle(
-                                                      fontSize: 16)),
-                                            ))
-                                        .toList(),
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 600),
-                    duration: const Duration(milliseconds: 800),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                             Text(
-                              "Yapay Zeka Tarif Önerileri:",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green.shade700),
-                            ),
-                            const SizedBox(height: 8),
-                            yukleniyor
-                                ? const Center(
-                                    child: CircularProgressIndicator())
-                                : Text(aiTarifler ?? "Tarif bulunamadı.",
-                                    style: const TextStyle(fontSize: 16)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 800),
+                        child: GlassCard(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.orangeAccent.withOpacity(0.15),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.co2_rounded, size: 40, color: Colors.orangeAccent),
+                              ),
+                              const SizedBox(height: 15),
+                              const Text(
+                                "Tahmini Karbon Ayak İzi",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppTheme.textSecondary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "${karbon.toStringAsFixed(2)} kg CO₂e",
+                                style: const TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppTheme.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 400),
+                        duration: const Duration(milliseconds: 800),
+                        child: GlassCard(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.restaurant_menu_rounded, color: AppTheme.primaryGreen),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    "Yerel Tarif Eşleşmeleri",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppTheme.primaryGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              eslesenTarifler.isEmpty
+                                  ? const Text(
+                                      "Girdiğiniz malzemelere uygun yerel tarif bulunamadı.",
+                                      style: TextStyle(color: AppTheme.textSecondary, fontStyle: FontStyle.italic),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: eslesenTarifler.map((tarif) => Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.check_circle_outline_rounded, color: AppTheme.secondaryGreen, size: 20),
+                                            const SizedBox(width: 10),
+                                            Text(tarif, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                                          ],
+                                        ),
+                                      )).toList(),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FadeInUp(
+                        delay: const Duration(milliseconds: 600),
+                        duration: const Duration(milliseconds: 800),
+                        child: GlassCard(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.auto_awesome_rounded, color: Colors.purpleAccent),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    "Yapay Zeka (Gemini) Önerileri",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppTheme.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              yukleniyor
+                                  ? const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                                        child: CircularProgressIndicator(color: Colors.purpleAccent),
+                                      ),
+                                    )
+                                  : Text(
+                                      aiTarifler ?? "Yapay zeka şu an cevap veremiyor.",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: AppTheme.textPrimary,
+                                        height: 1.6, // Satır arası boşluğu artırdık
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

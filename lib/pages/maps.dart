@@ -65,7 +65,7 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
     });
 
     final keyword = await GeminiService.extractKeywords(userQuery);
-    const apiKey = 'AIzaSyA4BaZTZssPTKp4gWuSSCQ_L1XCDvZO9mo';
+    const apiKey = 'AIzaSyBlZZrrkvL3Zse2POWo9v4dmaivmkLGvwo';
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
         '?location=${_currentLocation!.latitude},${_currentLocation!.longitude}'
@@ -86,13 +86,29 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
     }
 
     final data = jsonDecode(response.body);
-    if (data['status'] != 'OK') {
+    final status = data['status'];
+
+    if (status == 'ZERO_RESULTS') {
+      setState(() {
+        _markers.clear();
+        _isLoading = false;
+        _loadingMessage = '';
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bu bölgede aradığınız kritere uygun yer bulunamadı.')),
+      );
+      return;
+    }
+
+    if (status != 'OK') {
+      final errorMessage = data['error_message'] ?? '';
+      print('Places API Hatası: $status - $errorMessage');
       setState(() {
         _isLoading = false;
         _loadingMessage = '';
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Arama sonuçları alınamadı.')),
+        SnackBar(content: Text('API Hatası: $status ($errorMessage). Lütfen Google Cloud\'da Places API\'yi etkinleştirin.')),
       );
       return;
     }

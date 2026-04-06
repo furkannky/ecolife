@@ -3,6 +3,9 @@ import 'package:ecolife/services/gemini_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
 
 class UrunBilgisiAlmaEkran extends StatefulWidget {
   @override
@@ -62,204 +65,256 @@ class _UrunBilgisiAlmaEkranState extends State<UrunBilgisiAlmaEkran> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Colors.green.shade900,
-              Colors.green.shade800,
-              Colors.green.shade400,
-            ],
-          ),
-        ),
+      backgroundColor: AppTheme.background,
+      body: OrganicBackground(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+             Padding(
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
+              child: Row(
                 children: [
-                  FadeInUp(
-                    duration: const Duration(milliseconds: 1000),
-                    child: const Text("Ürün Bilgisi Al",
-                        style: TextStyle(color: Colors.white, fontSize: 40)),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                  const SizedBox(height: 10),
-                  FadeInUp(
-                    duration: const Duration(milliseconds: 1300),
-                    child: const Text(
-                        "Ürün hakkında bilgi almak için QR kodunu okuyun veya manuel olarak girin.",
-                        style: TextStyle(color: Colors.white, fontSize: 18)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      child: Text(
+                        'Ürün Tarayıcı',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: AppTheme.primaryGreen,
+                              fontWeight: FontWeight.w900,
+                            ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: FadeInDown(
+                delay: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 1300),
+                child: Text(
+                  'Ürünün QR kodunu okutup karbon ayak izini öğrenin.',
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        // Yöntem Seçim Butonları
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isScanning = true;
-                                    _qrOkumaAktif = true;
-                                    _urunBilgisi = null;
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _qrOkumaAktif
-                                      ? Theme.of(context).colorScheme.primary
-                                      : null,
-                                  foregroundColor: _qrOkumaAktif
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : null,
-                                ),
-                                child: const Text('QR Kodunu Oku'),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isScanning = false;
-                                    _qrOkumaAktif = false;
-                                    _urunBilgisi = null;
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: !_qrOkumaAktif
-                                      ? Theme.of(context).colorScheme.primary
-                                      : null,
-                                  foregroundColor: !_qrOkumaAktif
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : null,
-                                ),
-                                child: const Text('Manuel Giriş'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                    
-                        // QR Kod Okuma Alanı
-                        if (_qrOkumaAktif)
-                          SizedBox(
-                            height: 300, // Yüksekliği ayarlanabilir
-                            child: MobileScanner(
-                              controller: cameraController,
-                              onDetect: (capture) {
-                                try {
-                                  final List<Barcode> barcodes = capture.barcodes;
-                                  if (barcodes.isNotEmpty &&
-                                      barcodes.first.rawValue != null) {
-                                    final String? scannedValue =
-                                        barcodes.first.rawValue;
-                                    print('QR Kod Okundu: $scannedValue');
+              ),
+            ),
+            const SizedBox(height: 30),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 1000),
+                        child: GlassCard(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
                                     setState(() {
-                                      qrSonucu = scannedValue;
-                                      _urunBilgisiniAl(scannedValue!);
+                                      _isScanning = true;
+                                      _qrOkumaAktif = true;
+                                      _urunBilgisi = null;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                      color: _qrOkumaAktif ? AppTheme.primaryGreen : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'QR Oku',
+                                        style: TextStyle(
+                                          color: _qrOkumaAktif ? Colors.white : AppTheme.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
                                       _isScanning = false;
                                       _qrOkumaAktif = false;
+                                      _urunBilgisi = null;
                                     });
-                                  } else if (barcodes.isEmpty) {
-                                    print('Hiç barkod algılanmadı.');
-                                  } else if (barcodes.first.rawValue == null) {
-                                    print('Okunan barkodun değeri boş.');
-                                  }
-                                } catch (e) {
-                                  print('QR kod okuma sırasında hata oluştu: $e');
-                                }
-                              },
-                            ),
-                          ),
-                    
-                        // Manuel Giriş Alanı
-                        if (!_qrOkumaAktif)
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: <Widget>[
-                                TextFormField(
-                                  controller: _manuelUrunAdiController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Ürün Adı',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Lütfen ürün adını girin';
-                                    }
-                                    return null;
                                   },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                      color: !_qrOkumaAktif ? AppTheme.primaryGreen : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Manuel Seç',
+                                        style: TextStyle(
+                                          color: !_qrOkumaAktif ? Colors.white : AppTheme.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(height: 20),
-                                ElevatedButton(
-                                  onPressed: _isLoading
-                                      ? null
-                                      : () async {
-                                          if (_formKey.currentState!.validate()) {
-                                            _urunBilgisiniAl(
-                                                _manuelUrunAdiController.text);
-                                          }
-                                        },
-                                  child: _isLoading
-                                      ? const CircularProgressIndicator()
-                                      : const Text('Bilgi Al'),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                    
-                        const SizedBox(height: 20),
-                    
-                        // Ürün Bilgisi Gösterim Alanı
-                        if (_urunBilgisi != null)
-                          SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Ürün Bilgisi:',
-                                      style: TextStyle(
-                                          fontSize: 18, fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      _urunBilgisi!,
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      
+                      if (_qrOkumaAktif)
+                        FadeIn(
+                          child: GlassCard(
+                            padding: const EdgeInsets.all(16),
+                            child: SizedBox(
+                              height: 300,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: MobileScanner(
+                                  controller: cameraController,
+                                  onDetect: (capture) {
+                                    try {
+                                      final List<Barcode> barcodes = capture.barcodes;
+                                      if (barcodes.isNotEmpty &&
+                                          barcodes.first.rawValue != null) {
+                                        final String? scannedValue =
+                                            barcodes.first.rawValue;
+                                        setState(() {
+                                          qrSonucu = scannedValue;
+                                          _urunBilgisiniAl(scannedValue!);
+                                          _isScanning = false;
+                                          _qrOkumaAktif = false;
+                                        });
+                                      }
+                                    } catch (e) {
+                                      print('Hata: $e');
+                                    }
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                      ],
-                    ),
+                        ),
+                      
+                      if (!_qrOkumaAktif && _urunBilgisi == null)
+                        FadeIn(
+                           child: GlassCard(
+                             padding: const EdgeInsets.all(24),
+                             child: Form(
+                               key: _formKey,
+                               child: Column(
+                                 children: <Widget>[
+                                   TextFormField(
+                                     controller: _manuelUrunAdiController,
+                                     decoration: InputDecoration(
+                                       labelText: 'Ürün Adını Giriniz',
+                                       labelStyle: TextStyle(color: AppTheme.textSecondary),
+                                       border: OutlineInputBorder(
+                                         borderRadius: BorderRadius.circular(15),
+                                       ),
+                                     ),
+                                     validator: (value) {
+                                       if (value == null || value.isEmpty) {
+                                         return 'Lütfen ürün adı giriniz';
+                                       }
+                                       return null;
+                                     },
+                                   ),
+                                   const SizedBox(height: 20),
+                                   ElevatedButton(
+                                     onPressed: _isLoading
+                                         ? null
+                                         : () async {
+                                             if (_formKey.currentState!.validate()) {
+                                               _urunBilgisiniAl(
+                                                   _manuelUrunAdiController.text);
+                                             }
+                                           },
+                                     style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(double.infinity, 55),
+                                     ),
+                                     child: _isLoading
+                                         ? const CircularProgressIndicator(color: Colors.white)
+                                         : const Text('Bilgi Al', style: TextStyle(fontSize: 18)),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                           ),
+                        ),
+                      
+                      if (_isLoading)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 40.0),
+                          child: Center(child: CircularProgressIndicator(color: AppTheme.primaryGreen)),
+                        ),
+
+                      if (_urunBilgisi != null)
+                        FadeInUp(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: GlassCard(
+                              padding: const EdgeInsets.all(24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.info_outline_rounded, color: AppTheme.primaryGreen),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        'Analiz Sonucu',
+                                        style: TextStyle(
+                                            fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    _urunBilgisi!,
+                                    style: TextStyle(fontSize: 16, height: 1.5, color: AppTheme.textSecondary),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      setState(() {
+                                        _urunBilgisi = null;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.refresh_rounded),
+                                    label: const Text('Yeni Arama Yap'),
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: const Size(double.infinity, 50),
+                                      backgroundColor: AppTheme.secondaryGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      const SizedBox(height: 40),
+                    ],
                   ),
                 ),
               ),

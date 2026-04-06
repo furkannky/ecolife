@@ -2,11 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({Key? key}) : super(key: key);
 
-  // Etkinliğe katılım sağlandığında karbon puanını artır
   void joinEvent(String eventId, BuildContext context) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
@@ -15,25 +17,26 @@ class EventsScreen extends StatelessWidget {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
     try {
-      // Etkinlik katılımını kaydet
       await ref.update({
         'joinedUsers': FieldValue.arrayUnion([uid]),
       });
 
-      // Kullanıcının karbon puanını artır
       await userRef.update({
-        'karbonSkoru': FieldValue.increment(1.0), // Karbon puanını 1 artırıyoruz
+        'karbonSkoru': FieldValue.increment(1.0), 
       });
 
-      // Katılım sonrası bildirim göster
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Etkinliğe katıldınız! Karbon puanınız artırıldı.")),
+        SnackBar(
+          content: const Text("Etkinliğe katıldınız! Karbon puanınız artırıldı.", style: TextStyle(fontWeight: FontWeight.bold)),
+          backgroundColor: AppTheme.primaryGreen,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
       );
     } catch (e) {
-      // Hata yönetimi
       print("Katılım ve karbon puanı güncelleme hatası: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Bir hata oluştu: $e"), backgroundColor: Colors.red),
+        SnackBar(content: Text("Bir hata oluştu: $e"), backgroundColor: Colors.redAccent),
       );
     }
   }
@@ -41,82 +44,142 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration:  BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Colors.lightGreen.shade900,
-              Colors.lightGreen.shade800,
-              Colors.lightGreen.shade400,
-            ],
-          ),
-        ),
+      backgroundColor: AppTheme.background,
+      body: OrganicBackground(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 80),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FadeInDown(
+                      duration: const Duration(milliseconds: 1000),
+                      child: Text(
+                        'Yerel Etkinlikler',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: AppTheme.primaryGreen,
+                              fontWeight: FontWeight.w900,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: FadeInDown(
-                duration: const Duration(milliseconds: 1000),
-                child: const Text(
-                  'Yerel Etkinlikler',
-                  style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                delay: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 1300),
+                child: Text(
+                  'Bölgenizdeki yeşil projelere katılın ve karbon puanı kazanın!',
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
-                  ),
-                ),
-                padding: const EdgeInsets.all(30),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance.collection('events').snapshots(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+                    if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppTheme.primaryGreen));
                     final docs = snapshot.data!.docs;
 
+                    if (docs.isEmpty) {
+                      return const Center(child: Text('Şu an aktif etkinlik bulunmuyor.', style: TextStyle(color: AppTheme.textSecondary)));
+                    }
+
                     return ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 40),
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map<String, dynamic>;
                         return FadeInUp(
-                          delay: Duration(milliseconds: 200 * index),
-                          duration: const Duration(milliseconds: 500),
-                          child: Card(
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(15),
-                              leading: const Icon(Icons.event, color: Colors.lightGreen, size: 30),
-                              title: Text(data['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(
-                                  "${data['description'] ?? 'Açıklama yok'}\n📅 ${data['date'] ?? 'Tarih belirtilmemiş'} | 📍 ${data['location'] ?? 'Konum belirtilmemiş'}",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              isThreeLine: true,
-                              trailing: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.lightGreen.shade700,
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                ),
-                                child: const Text("Katıl"),
-                                onPressed: () {
-                                  joinEvent(docs[index].id, context);
-                                },
+                          delay: Duration(milliseconds: 150 * index),
+                          duration: const Duration(milliseconds: 600),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: GlassCard(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.secondaryGreen.withOpacity(0.2),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.event_available_rounded, color: AppTheme.secondaryGreen, size: 28),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data['title'] ?? 'İsimsiz Etkinlik',
+                                              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: AppTheme.textPrimary),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              data['description'] ?? 'Açıklama yok',
+                                              style: TextStyle(color: AppTheme.textSecondary, height: 1.4, fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Divider(color: Colors.grey.withOpacity(0.2)),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_month_rounded, size: 16, color: Colors.orangeAccent),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        data['date'] ?? 'Tarih Belirtilmemiş',
+                                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orangeAccent, fontSize: 13),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      const Icon(Icons.location_on_rounded, size: 16, color: Colors.blueAccent),
+                                      const SizedBox(width: 5),
+                                      Expanded(
+                                        child: Text(
+                                          data['location'] ?? 'Konum Belirtilmemiş',
+                                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 13),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15),
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      joinEvent(docs[index].id, context);
+                                    },
+                                    icon: const Icon(Icons.group_add_rounded),
+                                    label: const Text('Katıl (+1 Puan)', style: TextStyle(fontWeight: FontWeight.bold)),
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(double.infinity, 45),
+                                        backgroundColor: AppTheme.primaryGreen,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

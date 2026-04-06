@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; // HomeScreen'ı import etmeyi unutmayın
-import 'maps.dart'; // HaritaEkrani'nı import edin
+import 'home_screen.dart'; 
+import 'maps.dart'; 
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
 
 class UlasimAsistaniScreen extends StatefulWidget {
   const UlasimAsistaniScreen({super.key});
@@ -11,9 +14,8 @@ class UlasimAsistaniScreen extends StatefulWidget {
 }
 
 class _UlasimAsistaniScreenState extends State<UlasimAsistaniScreen> {
-  String? _secilenUlasim; // Kullanıcının seçtiği ulaşım tercihi
+  String? _secilenUlasim;
 
-  // Karbon emisyon değerleri
   final Map<String, double> _karbonDegerleri = {
     'Bisiklet': 0.0,
     'Yürüyüş': 0.0,
@@ -21,7 +23,13 @@ class _UlasimAsistaniScreenState extends State<UlasimAsistaniScreen> {
     'Araba': 8.0,
   };
 
-  // Seçilen ulaşım aracına göre karbon puanı hesapla
+  final Map<String, IconData> _ulasimIkonlari = {
+    'Bisiklet': Icons.pedal_bike_rounded,
+    'Yürüyüş': Icons.directions_walk_rounded,
+    'Toplu Taşıma': Icons.directions_bus_rounded,
+    'Araba': Icons.directions_car_rounded,
+  };
+
   double _karbonPuanHesapla(String? ulasimAraci) {
     if (ulasimAraci != null && _karbonDegerleri.containsKey(ulasimAraci)) {
       return _karbonDegerleri[ulasimAraci]!;
@@ -29,7 +37,6 @@ class _UlasimAsistaniScreenState extends State<UlasimAsistaniScreen> {
     return 0.0;
   }
 
-  // Alternatif ulaşım önerisi
   String _alternatifUlasim(String? ulasimAraci) {
     if (ulasimAraci == 'Araba') {
       return 'Bugün toplu taşıma veya bisiklet kullanmayı deneyin!';
@@ -41,215 +48,217 @@ class _UlasimAsistaniScreenState extends State<UlasimAsistaniScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Colors.green.shade900,
-              Colors.green.shade800,
-              Colors.green.shade400,
-            ],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 80),
-                FadeInDown(
-                  duration: const Duration(milliseconds: 1000),
-                  child: const Text(
-                    'Yeşil Ulaşım Asistanı',
-                    style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+    return OrganicBackground(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+             child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                ),
-                const SizedBox(height: 30),
-                FadeInUp(
-                  delay: const Duration(milliseconds: 200),
-                  duration: const Duration(milliseconds: 800),
-                  child: Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Bugün hangi ulaşım aracını kullanacaksınız?',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600, color: Colors.green.shade700),
-                          ),
-                          const SizedBox(height: 15),
-                          Column(
-                            children: _karbonDegerleri.keys.map((ulasim) {
-                              return FadeInLeft(
-                                delay: Duration(
-                                    milliseconds:
-                                        200 * _karbonDegerleri.keys.toList().indexOf(ulasim)),
-                                duration: const Duration(milliseconds: 600),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _secilenUlasim = ulasim;
-                                      });
-                                      // Ana sayfaya gitmek için burayı kaldırın veya yorum satırı yapın
-                                      /*Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                            kullaniciAdi: "Kullanıcı Adı", // Burada gerçek kullanıcı adını almalısınız
-                                            ulasimTercihi: _secilenUlasim,
-                                          ),
-                                        ),
-                                      );*/
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: _secilenUlasim == ulasim
-                                          ? Colors.green.shade700
-                                          : Colors.blue.shade600,
-                                      padding: const EdgeInsets.symmetric(vertical: 15),
-                                      minimumSize: const Size(double.infinity, 50),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      ulasim,
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FadeInDown(
+                      duration: const Duration(milliseconds: 800),
+                      child: Text(
+                        'Yeşil Ulaşım',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: AppTheme.primaryGreen,
+                              fontWeight: FontWeight.w900,
+                            ),
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
+              child: FadeInDown(
+                delay: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 800),
+                child: Text(
+                  'Bugün hangi ulaşım aracını kullanacaksınız?',
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
                 ),
-                const SizedBox(height: 20),
-                if (_secilenUlasim != null)
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 400),
-                    duration: const Duration(milliseconds: 800),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  String ulasim = _karbonDegerleri.keys.elementAt(index);
+                  bool isSelected = _secilenUlasim == ulasim;
+
+                  return FadeInLeft(
+                    delay: Duration(milliseconds: 100 * index),
+                    duration: const Duration(milliseconds: 600),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _secilenUlasim = ulasim;
+                          });
+                        },
+                        child: GlassCard(
+                          padding: const EdgeInsets.all(20),
+                          backgroundColor: isSelected
+                              ? AppTheme.primaryGreen.withOpacity(0.2)
+                              : Colors.white.withOpacity(0.4),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: isSelected ? AppTheme.primaryGreen : Colors.white.withOpacity(0.5),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  _ulasimIkonlari[ulasim],
+                                  color: isSelected ? Colors.white : AppTheme.primaryGreen,
+                                  size: 28,
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Text(
+                                  ulasim,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+                                    color: AppTheme.textPrimary,
+                                  ),
+                                ),
+                              ),
+                              if (isSelected)
+                                const Icon(Icons.check_circle_rounded, color: AppTheme.primaryGreen),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: _karbonDegerleri.keys.length,
+              ),
+            ),
+          ),
+          if (_secilenUlasim != null)
+            SliverToBoxAdapter(
+              child: FadeInUp(
+                delay: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 800),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  child: GlassCard(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              'Seçilen Ulaşım Aracı:',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green.shade700),
+                            const Icon(Icons.co2_rounded, size: 40, color: Colors.orangeAccent),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                'Karbon Ayak İzi:',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textSecondary),
+                              ),
                             ),
-                            const SizedBox(height: 5),
                             Text(
-                              _secilenUlasim!,
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              'Karbon Ayak İzi:',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green.shade700),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              '${_karbonPuanHesapla(_secilenUlasim).toStringAsFixed(2)} kg CO₂e',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Öneri:',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600, color: Colors.green.shade700),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              _alternatifUlasim(_secilenUlasim),
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                              '${_karbonPuanHesapla(_secilenUlasim).toStringAsFixed(2)} kg',
+                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.orangeAccent),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 30),
-                FadeInUp(
-                  delay: const Duration(milliseconds: 600),
-                  duration: const Duration(milliseconds: 800),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/harita');
-                    },
-                    icon: const Icon(Icons.map, color: Colors.white),
-                    label: const Text(
-                      'Haritayı Görüntüle',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green.shade700,
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      minimumSize: const Size(double.infinity, 50),
+                        const Divider(height: 30),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.tips_and_updates_rounded, color: AppTheme.primaryGreen),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Öneri:',
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textSecondary),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    _alternatifUlasim(_secilenUlasim),
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 20), // Ana sayfaya dönme butonu (isteğe bağlı)
-                if (_secilenUlasim != null)
-                  FadeInUp(
-                    delay: const Duration(milliseconds: 800),
-                    duration: const Duration(milliseconds: 800),
-                    child: ElevatedButton(
+              ),
+            ),
+          SliverToBoxAdapter(
+            child: FadeInUp(
+              delay: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 800),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                child: Column(
+                  children: [
+                    ElevatedButton.icon(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              kullaniciAdi: "Kullanıcı Adı", // Gerçek kullanıcı adını buraya almalısınız
-                              ulasimTercihi: _secilenUlasim,
-                            ),
-                          ),
-                        );
+                        Navigator.pushNamed(context, '/harita');
                       },
+                      icon: const Icon(Icons.map_rounded),
+                      label: const Text('Haritayı Görüntüle', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue.shade700,
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        minimumSize: const Size(double.infinity, 50),
-                      ),
-                      child: const Text(
-                        'Ana Sayfaya Dön',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        minimumSize: const Size(double.infinity, 60),
+                        backgroundColor: AppTheme.primaryGreen,
+                        foregroundColor: Colors.white,
                       ),
                     ),
-                  ),
-              ],
+                    const SizedBox(height: 15),
+                    if (_secilenUlasim != null)
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(
+                                kullaniciAdi: "Kullanıcı Adı",
+                                ulasimTercihi: _secilenUlasim,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.home_rounded),
+                        label: const Text('Ana Sayfaya Dön', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 60),
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppTheme.primaryGreen,
+                        ),
+                      ),
+                    const SizedBox(height: 40),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

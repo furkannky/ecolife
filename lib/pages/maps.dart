@@ -4,8 +4,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import '../services/gemini_service.dart'; // kendi klasör yapına göre yolu düzenle
+import '../services/gemini_service.dart';
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
+import 'package:animate_do/animate_do.dart';
 
 class HaritaEkrani extends StatefulWidget {
   const HaritaEkrani({super.key});
@@ -24,8 +27,8 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
   LatLng? _currentLocation;
   Set<Marker> _markers = {};
   bool _permissionGranted = false;
-  bool _isLoading = false; // Yükleniyor durumunu kontrol etmek için
-  String _loadingMessage = ''; // Yükleniyor mesajını saklamak için
+  bool _isLoading = false; 
+  String _loadingMessage = ''; 
 
   @override
   void initState() {
@@ -44,23 +47,17 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
   }
 
   Future<void> _getCurrentLocation() async {
-    // Gerçek konum alma yerine sabit İstanbul konumu
-    const istanbulLatLng = LatLng(41.0082, 28.9784); // İstanbul koordinatları
-
+    const istanbulLatLng = LatLng(41.0082, 28.9784); 
     setState(() {
       _currentLocation = istanbulLatLng;
     });
-
     _mapController?.animateCamera(
       CameraUpdate.newLatLngZoom(istanbulLatLng, 14),
     );
-
-    print("Manuel konum: İstanbul gösteriliyor.");
   }
 
   Future<void> _getNearbyPlaces(String userQuery) async {
     if (_currentLocation == null) return;
-
     setState(() {
       _isLoading = true;
       _loadingMessage = 'Yapay zeka yakındaki mekanları arıyor...';
@@ -68,7 +65,6 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
     });
 
     final keyword = await GeminiService.extractKeywords(userQuery);
-
     const apiKey = 'AIzaSyA4BaZTZssPTKp4gWuSSCQ_L1XCDvZO9mo';
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
@@ -112,6 +108,7 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
         markerId: MarkerId(id),
         position: LatLng(lat, lng),
         infoWindow: InfoWindow(title: name),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
       );
     }).toSet();
 
@@ -120,77 +117,129 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
       _isLoading = false;
       _loadingMessage = '';
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sonuçlar bulundu!')),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Harita'),
-        backgroundColor: Colors.green.shade800,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      backgroundColor: AppTheme.background,
       body: _permissionGranted
-          ? Stack(
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: TextField(
-                        onSubmitted: _getNearbyPlaces,
-                        decoration: const InputDecoration(
-                          labelText: 'Ne arıyorsunuz?',
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GoogleMap(
-                        initialCameraPosition: _initialCamera,
-                        onMapCreated: (controller) => _mapController = controller,
-                        myLocationEnabled: true,
-                        markers: _markers,
-                        mapType: MapType.normal,
-                      ),
-                    ),
-                  ],
-                ),
-                if (_isLoading)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          ? OrganicBackground(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                   Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
+                    child: Row(
                       children: [
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: 24.0),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Text(
-                            _loadingMessage,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: FadeInDown(
+                            duration: const Duration(milliseconds: 800),
+                            child: Text(
+                              'Yaşam Haritam',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    color: AppTheme.primaryGreen,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-              ],
+                  FadeInDown(
+                    delay: const Duration(milliseconds: 200),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      child: GlassCard(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: TextField(
+                          onSubmitted: _getNearbyPlaces,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Örn: Yakınımdaki geri dönüşüm kutuları',
+                            hintStyle: TextStyle(color: AppTheme.textSecondary.withOpacity(0.6)),
+                            icon: const Icon(Icons.search_rounded, color: AppTheme.primaryGreen),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        FadeInUp(
+                          duration: const Duration(milliseconds: 1000),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(24),
+                              child: GoogleMap(
+                                initialCameraPosition: _initialCamera,
+                                onMapCreated: (controller) => _mapController = controller,
+                                myLocationEnabled: true,
+                                markers: _markers,
+                                mapType: MapType.normal,
+                                zoomControlsEnabled: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (_isLoading)
+                          Center(
+                            child: FadeIn(
+                              child: GlassCard(
+                                padding: const EdgeInsets.all(24),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const CircularProgressIndicator(color: AppTheme.primaryGreen),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      _loadingMessage,
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             )
           : Center(
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
                 onPressed: _checkLocationPermission,
-                child: const Text('Konum izni ver'),
+                icon: const Icon(Icons.my_location_rounded),
+                label: const Text('Konum İzni Ver'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                ),
               ),
             ),
     );

@@ -14,6 +14,7 @@ import 'package:ecolife/pages/ulasim_tercihi.dart';
 import 'package:ecolife/pages/maps.dart';
 import 'package:ecolife/pages/eco_education_screen.dart'; 
 import 'package:ecolife/firebase_options.dart';
+import 'package:ecolife/constants/app_theme.dart'; // YENİ TEMA EKLENDİ
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'EcoLife',
+      theme: AppTheme.lightTheme, // YENİ TEMA UYGULANDI
       home:  LoginScreen(),
       routes: {
         '/home': (context) => HomeScreen(kullaniciAdi: ''),

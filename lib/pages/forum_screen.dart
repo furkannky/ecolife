@@ -1,6 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../widgets/organic_background.dart';
+import '../widgets/glass_card.dart';
+import '../constants/app_theme.dart';
 
 class ForumScreen extends StatefulWidget {
   const ForumScreen({super.key});
@@ -30,122 +33,111 @@ class _ForumScreenState extends State<ForumScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration:  BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Colors.green.shade700,
-              Colors.green.shade600,
-              Colors.green.shade300,
+      backgroundColor: AppTheme.background,
+      body: OrganicBackground(
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+               Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.primaryGreen),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: FadeInDown(
+                        duration: const Duration(milliseconds: 1000),
+                        child: Text(
+                          'Sürdürülebilir Yaşam',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: AppTheme.primaryGreen,
+                                fontWeight: FontWeight.w900,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('forums')
+                        .doc('genel')
+                        .collection('messages')
+                        .orderBy('timestamp', descending: true)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppTheme.primaryGreen));
+                      final docs = snapshot.data!.docs;
+                      return FadeIn(
+                        duration: const Duration(milliseconds: 500),
+                        child: ListView.builder(
+                          reverse: true,
+                          itemCount: docs.length,
+                          itemBuilder: (context, index) {
+                            final data = docs[index].data() as Map<String, dynamic>;
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: GlassCard(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                backgroundColor: Colors.white.withOpacity(0.6),
+                                child: Text(
+                                  data['text'] ?? '',
+                                  style: const TextStyle(fontSize: 16, color: AppTheme.textPrimary, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: GlassCard(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            hintText: 'Bir mesaj yazın...',
+                            hintStyle: TextStyle(color: AppTheme.textSecondary.withOpacity(0.6)),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                          ),
+                        ),
+                      ),
+                      FadeInRight(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryGreen,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.send_rounded, color: Colors.white),
+                            onPressed: _sendMessage,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
             ],
           ),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: FadeInDown(
-                duration: const Duration(milliseconds: 1000),
-                child: const Text(
-                  'Genel Forum',
-                  style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
-                  ),
-                ),
-                padding: const EdgeInsets.only(top: 20),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('forums')
-                      .doc('genel')
-                      .collection('messages')
-                      .orderBy('timestamp', descending: true)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-                    final docs = snapshot.data!.docs;
-                    return FadeIn(
-                      duration: const Duration(milliseconds: 500),
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: docs.length,
-                        itemBuilder: (context, index) {
-                          final data = docs[index].data() as Map<String, dynamic>;
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                data['text'] ?? '',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: 'Mesaj yaz...',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: Colors.green.shade300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: Colors.green.shade700, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 200),
-                    duration: const Duration(milliseconds: 300),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.green.shade700,
-                      radius: 25,
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: Colors.white),
-                        onPressed: _sendMessage,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-          ],
         ),
       ),
     );

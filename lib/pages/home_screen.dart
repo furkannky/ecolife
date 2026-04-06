@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecolife/models/user_data.dart';
 import 'package:ecolife/pages/community_screen.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,19 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    String displayAdi = kullaniciAdi;
+    if (displayAdi.isEmpty) {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user?.displayName != null && user!.displayName!.isNotEmpty) {
+        displayAdi = user.displayName!;
+      } else if (user?.email != null) {
+        final namePart = user!.email!.split('@').first;
+        displayAdi = namePart[0].toUpperCase() + namePart.substring(1);
+      } else {
+        displayAdi = "Doğa Dostu";
+      }
+    }
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -105,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                 FadeInDown(
                   delay: const Duration(milliseconds: 100),
                   child: Text(
-                    "Hoş geldin, $kullaniciAdi 👋",
+                    "Hoş geldin, $displayAdi 👋",
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: AppTheme.textPrimary,
                       fontWeight: FontWeight.w800,

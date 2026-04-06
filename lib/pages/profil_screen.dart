@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/organic_background.dart';
 import '../widgets/glass_card.dart';
 import '../constants/app_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
@@ -12,9 +13,25 @@ class ProfilScreen extends StatefulWidget {
 }
 
 class _ProfilScreenState extends State<ProfilScreen> {
-  String kullaniciAdi = "Furkan Kaya";
-  String email = "furkan.kaya@example.com";
+  late String kullaniciAdi;
+  late String email;
   double karbonHedefi = 20.0;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    email = user?.email ?? "Bilinmeyen Email";
+    
+    if (user?.displayName != null && user!.displayName!.isNotEmpty) {
+      kullaniciAdi = user.displayName!;
+    } else if (user?.email != null) {
+      final namePart = user!.email!.split('@').first;
+      kullaniciAdi = namePart[0].toUpperCase() + namePart.substring(1);
+    } else {
+      kullaniciAdi = "Doğa Dostu";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

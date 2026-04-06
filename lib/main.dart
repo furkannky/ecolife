@@ -13,10 +13,13 @@ import 'package:ecolife/pages/skor_screen.dart';
 import 'package:ecolife/pages/ulasim_tercihi.dart';
 import 'package:ecolife/pages/maps.dart';
 import 'package:ecolife/pages/eco_education_screen.dart'; 
+import 'package:ecolife/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Firebase başlatılıyor
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); // Firebase başlatılıyor
   runApp(const MyApp());
 }
 

@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
@@ -21,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -45,9 +47,20 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Bir hata oluştu");
+      String errorMsg = "Giriş başarısız.";
+      switch (e.code) {
+        case 'invalid-email': errorMsg = "Geçersiz bir e-posta adresi girdiniz."; break;
+        case 'user-not-found': errorMsg = "Bu e-posta ile kayıtlı bir hesap bulunamadı."; break;
+        case 'wrong-password': errorMsg = "Şifrenizi yanlış girdiniz. Lütfen tekrar deneyin."; break;
+        case 'invalid-credential': errorMsg = "Girdiğiniz e-posta veya şifre hatalı."; break;
+        case 'email-already-in-use': errorMsg = "Aramıza zaten katıldınız! Bu hesap kullanılıyor."; break;
+        case 'weak-password': errorMsg = "Lütfen daha güçlü ve kırılması zor bir şifre seçin."; break;
+        case 'user-disabled': errorMsg = "Bu hesap yöneticiler tarafından dondurulmuş."; break;
+        default: errorMsg = e.message ?? "Bir Google sunucu hatası oluştu. Lütfen tekrar deneyin."; break;
+      }
+      _showCustomSnackBar(errorMsg, isError: true);
     } catch (e) {
-      _showError("Beklenmedik hata: $e");
+      _showCustomSnackBar("Beklenmedik bir hata takıldı: $e", isError: true);
     } finally {
       if (mounted) {
         setState(() => isLoading = false);
@@ -63,39 +76,66 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _signUp() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-      
-      String uid = userCredential.user!.uid;
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'email': emailController.text.trim(),
-        'score': 0,
-        'badges': [],
-      });
-
-      _showSuccess("Kayıt başarılı! Giriş yapabilirsiniz");
-    } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Bir hata oluştu");
-    } catch (e) {
-      _showError("Beklenmedik hata: $e");
-    }
-  }
-
-  void _showError(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.redAccent),
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
     );
+    
+    // YENİ EKLENEN: Firebase Auth'a kullanıcının adını kaydet
+    await userCredential.user!.updateDisplayName(nameController.text.trim());
+    
+    String uid = userCredential.user!.uid;
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'name': nameController.text.trim(),
+      'email': emailController.text.trim(),
+      'score': 0,
+      'badges': [],
+    });
+
+    _showCustomSnackBar("Harika! Kayıt başarılı, aramıza hoş geldin! 🎉", isError: false);
   }
 
-  void _showSuccess(String message) {
+  void _showCustomSnackBar(String message, {bool isError = true}) {
     if (!mounted) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: AppTheme.primaryGreen),
+      SnackBar(
+        content: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isError ? Icons.error_outline_rounded : Icons.check_circle_outline_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14.5,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: isError ? Colors.redAccent.shade400 : AppTheme.primaryGreen,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+        elevation: 0,
+        duration: const Duration(seconds: 4),
+      ),
     );
   }
 
@@ -193,6 +233,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               key: _formKey,
                               child: Column(
                                 children: [
+                                  if (!isLogin) ...[
+                                    TextFormField(
+                                      controller: nameController,
+                                      decoration: const InputDecoration(
+                                        hintText: "Adınız Soyadınız",
+                                        prefixIcon: Icon(Icons.person_outline_rounded),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.trim().isEmpty) return 'Lütfen adınızı girin';
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
                                   TextFormField(
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,

@@ -1,12 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecolife/models/user_data.dart';
-import 'package:ecolife/pages/community_screen.dart';
 import 'package:flutter/material.dart';
-import 'maps.dart';
 import 'karbon_ayak_izi_bilgi_ekrani.dart';
-import 'eco_education_screen.dart';
-import '../services/api_service.dart';
 import '../constants/app_theme.dart';
 import '../widgets/organic_background.dart';
 import '../widgets/glass_card.dart';
@@ -70,6 +65,7 @@ class HomeScreen extends StatelessWidget {
                 _menuKarti(context, "Akıllı Mutfak", Icons.fastfood_rounded, "/dolabim", Colors.orange.shade400, delay: 200),
                 _menuKarti(context, "Eco Eğitim", Icons.menu_book_rounded, "/egitim", Colors.blue.shade400, delay: 300),
                 _menuKarti(context, "Yaşam Haritam", Icons.map_rounded, "/harita", Colors.teal.shade400, delay: 400),
+                _menuKarti(context, "Geri Dönüşüm", Icons.recycling_rounded, "/geridonusum", Colors.green.shade600, delay: 450),
                 _menuKarti(context, "Yeşil Ulaşım", Icons.directions_car_filled_rounded, "/ulasim", Colors.indigo.shade400, delay: 500),
                 _menuKarti(context, "Ürün Tarayıcı", Icons.qr_code_scanner_rounded, "/urun-bilgisi", Colors.purple.shade400, delay: 600),
                 _menuKarti(context, "Profilim", Icons.person_rounded, "/profil", Colors.pink.shade400, delay: 700),

@@ -2,6 +2,7 @@ import 'package:ecolife/pages/community_screen.dart';
 import 'package:ecolife/pages/qr_scanner_screen.dart';
 import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:ecolife/pages/notifications_screen.dart';
+import 'package:ecolife/pages/recycle_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         '/urun-bilgisi': (context) => UrunBilgisiAlmaEkran(), 
         '/EcoLife Topluluğu': (context) => CommunityScreen(), 
         '/notifications': (context) => const NotificationsScreen(),
+        '/geridonusum': (context) => const RecycleMapScreen(), // Yeni Özel Harita
       },
     );
   }

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GeminiService {
-  static const String _apiKey = 'AIzaSyBfbzFhpdGfJ35jJeqy_T-3-FMveTxaGeQ';
+  static const String _apiKey = 'AIzaSyCKSbQccDmpCzwNBsJwJPBSe0hyLnHF2f0';
   static const String _endpoint =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$_apiKey';
 
@@ -19,10 +19,10 @@ class GeminiService {
           "contents": [
             {
               "parts": [
-                {"text": prompt}
-              ]
-            }
-          ]
+                {"text": prompt},
+              ],
+            },
+          ],
         }),
       );
 
@@ -35,7 +35,7 @@ class GeminiService {
           return "API'den beklenen veri alınamadı.";
         }
       } else {
-        return "API yanıt vermedi. Kod: ${response.statusCode}";
+        return "API HATA (${response.statusCode}): ${response.body}";
       }
     } catch (e) {
       return "Hata oluştu: $e";
@@ -56,10 +56,10 @@ class GeminiService {
           "contents": [
             {
               "parts": [
-                {"text": prompt}
-              ]
-            }
-          ]
+                {"text": prompt},
+              ],
+            },
+          ],
         }),
       );
 
@@ -72,7 +72,7 @@ class GeminiService {
           return "API'den beklenen veri alınamadı.";
         }
       } else {
-        return query;
+        return "API HATA (${response.statusCode}): ${response.body}";
       }
     } catch (e) {
       return "Hata oluştu: $e";
@@ -80,7 +80,7 @@ class GeminiService {
   }
 
   /// QR koddan gelen ürünle karbon ayak izi ve sürdürülebilirlik bilgisi alma
-static Future<String> urunBilgisiAl(String urunAdi) async {
+  static Future<String> urunBilgisiAl(String urunAdi) async {
     final prompt = '''
 Ürün: $urunAdi
 
@@ -95,10 +95,10 @@ Bu ürünün içeriği nedir? karbon ayak izi ve sürdürülebilirlik açısınd
           "contents": [
             {
               "parts": [
-                {"text": prompt}
-              ]
-            }
-          ]
+                {"text": prompt},
+              ],
+            },
+          ],
         }),
       );
 
@@ -110,20 +110,7 @@ Bu ürünün içeriği nedir? karbon ayak izi ve sürdürülebilirlik açısınd
           return "API'den beklenen veri alınamadı.";
         }
       } else {
-        // HTTP durum koduna göre daha anlamlı hata mesajları
-        switch (response.statusCode) {
-          case 400:
-            return "Geçersiz istek. Lütfen ürün adını kontrol edin.";
-          case 401:
-          case 403:
-            return "API anahtarı geçersiz veya yetkisiz erişim.";
-          case 404:
-            return "Ürün bilgisi bulunamadı.";
-          case 500:
-            return "Sunucu hatası oluştu. Lütfen tekrar deneyin.";
-          default:
-            return "API yanıt vermedi. Kod: ${response.statusCode}";
-        }
+        return "GOOGLE API HATASI [${response.statusCode}]: ${response.body}";
       }
     } catch (e) {
       return "Bir hata oluştu: $e";

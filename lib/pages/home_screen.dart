@@ -129,13 +129,18 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             FadeInRight(
-              child: GlassCard(
-                padding: const EdgeInsets.all(10),
-                borderRadius: BorderRadius.circular(15),
-                child: const Icon(
-                  Icons.notifications_none_rounded,
-                  color: AppTheme.primaryGreen,
-                  size: 26,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/notifications');
+                },
+                child: GlassCard(
+                  padding: const EdgeInsets.all(10),
+                  borderRadius: BorderRadius.circular(15),
+                  child: const Icon(
+                    Icons.notifications_none_rounded,
+                    color: AppTheme.primaryGreen,
+                    size: 26,
+                  ),
                 ),
               ),
             ),

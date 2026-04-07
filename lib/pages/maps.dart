@@ -47,13 +47,24 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
   }
 
   Future<void> _getCurrentLocation() async {
-    const istanbulLatLng = LatLng(41.0082, 28.9784); 
-    setState(() {
-      _currentLocation = istanbulLatLng;
-    });
-    _mapController?.animateCamera(
-      CameraUpdate.newLatLngZoom(istanbulLatLng, 14),
-    );
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      final currentLatLng = LatLng(position.latitude, position.longitude);
+
+      setState(() {
+        _currentLocation = currentLatLng;
+      });
+
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(currentLatLng, 14),
+      );
+    } catch (e) {
+      // Geolocator hatası durumunda varsayılan olarak cihazı sabit bir yere almayabiliriz ama
+      // en azından hatayı yakalayalım.
+      print("Konum alınamadı: $e");
+    }
   }
 
   Future<void> _getNearbyPlaces(String userQuery) async {

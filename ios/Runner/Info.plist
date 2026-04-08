@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +26,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to capture images of ingredients.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Uygulama her zaman konumunuzu görmek istiyor.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Uygulama konumunuzu görmek istiyor.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to select ingredient images.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,22 +53,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
-	<!-- Konum İzinleri -->
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Uygulama konumunuzu görmek istiyor.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Uygulama her zaman konumunuzu görmek istiyor.</string>
-
-	<!-- Kamera ve Galeri İzinleri -->
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to capture images of ingredients.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to select ingredient images.</string>
-
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>

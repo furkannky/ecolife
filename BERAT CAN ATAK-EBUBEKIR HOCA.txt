@@ -1,0 +1,344 @@
+
+VAN YÜZÜNCÜ YIL ÜNİVERSİTESİ
+MÜHENDİSLİK FAKÜLTESİ
+BİLGİSAYAR MÜHENDİSLİĞİ BÖLÜMÜ
+
+YAPAY ZEKA DESTEKLİ MOBİL TAKAS PLATFORMU
+(Artificial Intelligence Powered Mobile Exchange Platform)
+
+LİSANS BİTİRME PROJESİ ARA RAPORU
+
+Hazırlayanlar:
+Berat Can ATAK — 22390008018
+Yusuf Pala — 22390008035
+
+Danışman:
+Dr. Öğr. Üyesi Ebubekir Seyyarer
+
+Van, Nisan 2026
+
+1. GİRİŞ	2
+2. ARAŞTIRMANIN AMACI	5
+3. KURAMSAL TEMELLER VE İLGİLİ ARAŞTIRMALAR	6
+3.1. Dijital Takas Platformları ve Öneri Sistemleri	6
+3.2. Araştırmanın Önemi ve Gerekçesi	7
+4. MATERYAL VE METOD	9
+4.1. Kullanılan Teknolojiler ve Araçlar	9
+4.2. Sistem Mimarisi	9
+4.3. Veri Tabanı Tasarımı	10
+4.4. API Dokümantasyonu ve Servis Mimarisi	11
+4.5. Güvenlik Mimarisi	11
+4.6. Yapay Zeka Öneri Sistemi	12
+5. MEVCUT DURUM VE GELİŞTİRME AŞAMALARI	13
+5.1. Arka Uç (Backend) Geliştirme Süreci	13
+5.2. Veri Tabanı ve Altyapı Kurulumu	14
+5.3. Mobil Uygulama Ekranları	16
+5.3.1. Kimlik Doğrulama Ekranları	17
+5.3.2. Kesfet Ekranı ve İlan Listeleme	17
+5.3.3. İlan Detayı ve Yapay Zeka Destekli Öneriler	18
+5.3.4. Favoriler Ekranı	19
+5.3.5. Mesajlaşma Ekranları	20
+5.3.6. İlan Oluşturma Ekranı	21
+5.3.7. Profil Yönetimi Ekranı	22
+6. İŞ-ZAMAN TABLOSU	24
+7. ZORUNLU YAPILACAKLAR VE KRİTİK BİLEŞENLER	25
+7.1. Yapay Zeka Öneri Sisteminin Tamamlanması	25
+7.2. Mobil Uygulama ve Arka Uç Entegrasyonunun Tamamlanması	25
+7.3. Test ve Performans Analizi	25
+7.4. Dokümantasyon ve Final Raporlama	25
+8. ALTERNATİF ÇÖZÜMLER (B PLANI)	27
+8.1. Yapay Zeka Öneri Sistemine Yönelik Alternatifler	27
+8.2. Yazılım Geliştirme Sürecine Yönelik Alternatifler	27
+8.3. Performans ve Güvenlik Sorunlarına Yönelik Alternatifler	27
+8.4. Zaman Yönetimine Yönelik Alternatifler	27
+9. SONUÇ VE DEĞERLENDİRME	29
+10. KAYNAKÇA	31
+
+
+
+
+
+1. GİRİŞ
+Teknolojinin hızla gelişmesiyle birlikte dijital platformlar, bireylerin ürün ve hizmetlere erişim ve paylaşım biçimlerini önemli ölçüde değiştirmiştir. Özellikle mobil ve web tabanlı uygulamalar, ikinci el ürünlerin değerlendirilmesi ve ihtiyaç fazlası ürünlerin yeniden kullanılması açısından yaygın olarak kullanılmaktadır. Bu tür platformlar, kullanıcıların ürünlere daha hızlı erişmesini sağlamakta ve dijital etkileşimi artırmaktadır. Buna karşın, para kullanılmadan gerçekleştirilen takas işlemlerine yönelik dijital çözümler, alım-satım odaklı platformlara kıyasla daha sınırlı bir yaygınlığa sahiptir.
+Takas, tarihsel olarak ticaretin en eski biçimlerinden biri olmasına rağmen, dijital ortamlarda yeterince etkin ve kullanıcı dostu bir yapıda sunulamamaktadır. Mevcut dijital takas uygulamalarında kullanıcılar, uygun ürünleri bulabilmek için çoğunlukla manuel arama yapmakta ve takas eşleşmelerini bireysel değerlendirmeleri doğrultusunda gerçekleştirmektedir. Bu durum, özellikle ürün çeşitliliğinin ve kullanıcı sayısının fazla olduğu platformlarda zaman kaybına yol açmakta ve kullanıcı memnuniyetini olumsuz yönde etkilemektedir.
+Mobil platformlarda geliştirilen mevcut takas uygulamaları, kullanıcıların ürünlerini listeleyerek takas yapmasına olanak tanımaktadır. Ancak bu uygulamaların büyük bir bölümünde, takas eşleşmeleri kullanıcı inisiyatifine bırakılmakta ve gelişmiş yapay zeka destekli otomatik öneri mekanizmalarına yeterince yer verilmemektedir. Kullanıcıların uygun takas seçeneklerini kendilerinin aramak zorunda kalması, sistemlerin verimliliğini sınırlayan önemli bir faktör olarak öne çıkmaktadır.
+Günümüzde yapay zeka ve öneri sistemleri, kullanıcı davranışlarını analiz ederek kişiselleştirilmiş içerik ve ürün önerileri sunma konusunda önemli avantajlar sağlamaktadır. E-ticaret ve dijital içerik platformlarında yaygın olarak kullanılan bu teknolojiler, kullanıcı deneyimini iyileştirmek ve etkileşimi artırmak amacıyla etkin bir şekilde kullanılmaktadır. Ancak benzer yaklaşımların takas sistemlerine yeterince entegre edilmediği görülmektedir.
+Bu çalışma kapsamında, mevcut dijital takas platformlarının eksik kaldığı bu noktaya odaklanılarak yapay zeka destekli mobil bir takas platformunun geliştirilmesi amaçlanmaktadır. Geliştirilecek sistemin; ürün kategorileri, ürün açıklamaları, kullanıcıların geçmiş takas davranışları ve konum bilgilerini birlikte değerlendirerek en uygun takas eşleşmelerini otomatik olarak sunması hedeflenmektedir. Böylece kullanıcıların manuel arama yükünün azaltılması ve daha hızlı, verimli ve kullanıcı dostu bir takas sürecinin sağlanması amaçlanmaktadır.
+Proje kapsamında gerçekleştirilen çalışmalar incelendiğinde, birinci dönem faaliyetlerinin büyük ölçüde tamamlandığı görülmektedir. Sistem gereksinimlerinin belirlenmesi, mimari tasarımın oluşturulması, arka uç servislerinin geliştirilmesi, veri tabanı yapısının kurulması ve mobil uygulama arayüzlerinin kodlanması bu süreçte hayata geçirilen başlıca çalışmalardır. Bu ara rapor, söz konusu çalışmaları kapsamlı biçimde belgelemekte ve projenin ikinci dönem hedeflerine yönelik bir yol haritası sunmaktadır.
+2. ARAŞTIRMANIN AMACI
+Bu araştırmanın temel amacı, para kullanılmadan gerçekleştirilen takas işlemlerini daha verimli, hızlı ve kullanıcı odaklı hale getirmek amacıyla yapay zeka destekli bir mobil takas platformu geliştirmektir. Mevcut dijital takas uygulamalarında, kullanıcıların uygun takas seçeneklerini bulabilmek için manuel arama ve bireysel değerlendirme süreçlerine başvurmak zorunda kalması, takas sürecinin yavaşlamasına ve kullanıcı deneyiminin olumsuz etkilenmesine neden olmaktadır. Bu çalışma, söz konusu problemi çözmeye yönelik olarak akıllı ve otomatik bir sistem yaklaşımı ortaya koymayı hedeflemektedir.
+Araştırma kapsamında geliştirilen sistem ile kullanıcıların platforma ekledikleri ürünlerin, yapay zeka destekli bir öneri mekanizması aracılığıyla analiz edilerek en uygun takas eşleşmelerinin otomatik olarak sunulması amaçlanmaktadır. Bu doğrultuda ürün kategorileri, ürün açıklamaları, kullanıcıların geçmiş takas davranışları ve konum bilgileri birlikte değerlendirilerek kişiselleştirilmiş önerilerin üretilmesi hedeflenmektedir.
+Araştırmanın alt amaçları aşağıdaki şekilde sıralanabilir:
+	•	Yapay zeka destekli içerik tabanlı öneri sisteminin mobil takas platformuna entegrasyonunu gerçekleştirmek ve bu entegrasyonun işlevselliğini test etmek.
+	•	Clean Architecture prensiplerine uygun, katmanlı ve sürdürülebilir bir arka uç mimarisi inşa etmek.
+	•	PostgreSQL veri tabanı ve Entity Framework Core kullanılarak ilişkisel veri modelini oluşturmak ve yönetmek.
+	•	Redis önbellekleme mekanizması aracılığıyla sistem performansını optimize etmek ve tekrarlayan işlemleri minimize etmek.
+	•	JWT tabanlı kimlik doğrulama ve yetkilendirme altyapısı kurarak kullanıcı güvenliğini sağlamak.
+	•	React Native ile çapraz platform desteği sunan, Android ve iOS uyumlu bir mobil uygulama geliştirmek.
+	•	RESTful API servisleri aracılığıyla arka uç ile mobil istemci arasında güvenli ve hızlı iletişim altyapısı kurmak.
+
+Bu çalışmanın bir diğer amacı, geliştirilen sistem üzerinden yapay zeka destekli öneri sistemlerinin dijital takas platformlarına uygulanabilirliğini incelemek ve bu tür sistemlerin kullanıcı deneyimi üzerindeki etkilerini ortaya koymaktır. Ayrıca çalışma, takas süreçlerinin dijital ortamda daha sürdürülebilir ve verimli bir yapıya kavuşturulmasına katkı sağlamayı hedeflemektedir.
+3. KURAMSAL TEMELLER VE İLGİLİ ARAŞTIRMALAR
+3.1. Dijital Takas Platformları ve Öneri Sistemleri
+Dijitalleşmenin hız kazanmasıyla birlikte bireylerin ürün ve hizmetlere erişim biçimleri önemli ölçüde değişmiş, bu dönüşüm özellikle mobil ve web tabanlı platformların yaygınlaşmasıyla daha belirgin hale gelmiştir. İkinci el ürünlerin değerlendirilmesi ve ihtiyaç fazlası ürünlerin yeniden kullanımı hem ekonomik hem de sürdürülebilir tüketim açısından dijital platformlar aracılığıyla desteklenmektedir. Bu bağlamda takas sistemleri, para kullanılmadan gerçekleştirilen ticaretin dijital ortama taşınmış bir biçimi olarak değerlendirilmektedir. Ancak mevcut dijital takas platformlarının büyük bir bölümünde, kullanıcıların uygun takas eşleşmelerini bulma süreci manuel arama ve bireysel değerlendirmeye dayanmaktadır.
+Bu tür problemlerin çözümünde yapay zeka tabanlı öneri sistemleri önemli avantajlar sunmaktadır. Öneri sistemleri, kullanıcıların geçmiş davranışlarını ve içerik özelliklerini analiz ederek kişiselleştirilmiş öneriler sunmayı amaçlayan akıllı sistemlerdir. Günümüzde bu sistemler e-ticaret, dijital medya ve sosyal ağ platformlarında yaygın olarak kullanılmakta; kullanıcı memnuniyetini artırmak ve etkileşimi güçlendirmek amacıyla önemli bir rol üstlenmektedir. Literatürde öneri sistemleri genel olarak içerik tabanlı, işbirlikçi filtreleme ve hibrit yaklaşımlar olmak üzere üç ana başlık altında ele alınmaktadır (Ricci ve diğerleri, 2015; Aggarwal, 2016).
+İçerik tabanlı öneri sistemleri, kullanıcıların geçmişte etkileşimde bulunduğu ürün veya içeriklerin özelliklerini temel alarak benzer içerikler sunmaktadır. İşbirlikçi filtreleme yaklaşımları ise benzer kullanıcıların davranışlarını analiz ederek öneriler üretmektedir. Hibrit öneri sistemleri, her iki yaklaşımın güçlü yönlerini bir araya getirerek daha dengeli ve isabetli sonuçlar elde etmeyi hedeflemektedir. Yapılan akademik çalışmalar, hibrit yaklaşımların tek başına kullanılan yöntemlere kıyasla daha yüksek doğruluk oranlarına ulaşabildiğini göstermektedir (Burke, 2002).
+Yapay zeka destekli eşleştirme sistemleri, büyük veri kümelerinin analiz edilmesi ve anlamlı sonuçlar üretilmesi açısından önemli bir rol üstlenmektedir. Kullanıcı davranışları, ürün özellikleri, geçmiş etkileşimler ve konumsal verilerin birlikte değerlendirilmesi, daha doğru ve kişiselleştirilmiş önerilerin sunulmasını mümkün kılmaktadır (Adomavicius ve Tuzhilin, 2005).
+Takas sistemleri özelinde değerlendirildiğinde, ürün açıklamaları ve geçmiş takas verileri uygun eşleşmelerin belirlenmesinde kritik öneme sahiptir. Buna karşın literatürde, öneri sistemlerinin doğrudan takas platformlarına uygulanmasına yönelik çalışmaların sınırlı olduğu görülmektedir. Bu durum, yapay zeka tabanlı öneri sistemlerinin takas platformlarına entegrasyonu açısından önemli bir araştırma boşluğuna işaret etmektedir.
+3.2. Araştırmanın Önemi ve Gerekçesi
+Dijital platformlar aracılığıyla gerçekleştirilen takas işlemleri, sürdürülebilir tüketim anlayışının yaygınlaştırılması ve kaynakların daha etkin kullanılması açısından önemli bir potansiyele sahiptir. Para kullanılmadan yapılan takaslar, bireylerin ihtiyaç fazlası ürünleri değerlendirmesine olanak tanırken, aynı zamanda ekonomik ve çevresel faydalar sağlamaktadır. Ancak mevcut dijital takas uygulamalarında, kullanıcıların uygun eşleşmeleri manuel olarak aramak zorunda kalması, sistemlerin verimliliğini azaltmakta ve kullanıcı deneyimini olumsuz yönde etkilemektedir.
+Bu çalışma, dijital takas platformlarında kullanıcı deneyimini iyileştirecek ve takas süreçlerini daha verimli hale getirecek yapay zeka destekli bir çözüm sunması bakımından önem taşımaktadır. Geliştirilen öneri sistemi sayesinde, kullanıcıların ilgi alanları, ürün özellikleri, geçmiş etkileşimleri ve konum bilgileri birlikte değerlendirilerek daha hızlı ve daha uyumlu takas eşleşmelerinin sunulması mümkün hale gelmektedir.
+Teknolojik açıdan değerlendirildiğinde, çalışma yapay zeka tabanlı öneri sistemlerinin takas platformlarına uygulanabilirliğini ortaya koyması bakımından önemlidir. Öneri sistemleri literatürde ağırlıklı olarak ticari alım-satım ve içerik platformları bağlamında ele alınırken, takas odaklı sistemlere yönelik çalışmaların sınırlı olması bu alanı araştırmaya açık hale getirmektedir. Bu yönüyle proje, mevcut literatürdeki bir boşluğu doldurmayı amaçlamaktadır.
+Akademik katkıların yanı sıra çalışma, mobil uygulama geliştirme, web servisleri ve veri tabanı yönetimi gibi alanlarda bütünleşik bir çözüm sunması açısından da önem taşımaktadır. Elde edilen bulguların ve geliştirilen sistem mimarisinin, benzer dijital platformların tasarımında ve gelecekte yapılacak akademik çalışmalarda referans niteliği taşıması beklenmektedir. Bu bağlamda proje hem teorik hem de pratik açıdan literatüre ve uygulama alanına katkı sağlamayı hedeflemektedir.
+4. MATERYAL VE METOD
+4.1. Kullanılan Teknolojiler ve Araçlar
+Bu bitirme projesi kapsamında kullanılan teknolojiler ve araçlar; arka uç, mobil uygulama, veri tabanı ve altyapı olmak üzere dört ana başlık altında ele alınmaktadır. Her bir teknoloji, projenin gereksinimlerine ve sürdürülebilirlik hedeflerine uygun biçimde seçilmiştir. Aşağıdaki tabloda kullanılan başlıca teknolojiler ve amaçları özetlenmektedir.
+
+Teknoloji
+Kategori
+Kullanım Amacı
+.NET Core Web API
+Arka Uç
+RESTful API geliştirme ve iş mantığı katmanı
+Clean Architecture
+Mimari
+Katmanlı, test edilebilir ve sürdürülebilir yapı
+Entity Framework Core
+ORM
+Veri tabanı erişim ve yönetimi
+PostgreSQL
+Veri Tabanı
+İlişkisel veri yönetim sistemi
+Redis
+Önbellek
+Hızlı veri erişimi ve önbellek yönetimi
+React Native
+Mobil
+Çapraz platform mobil uygulama geliştirme
+JWT
+Güvenlik
+Kimlik doğrulama ve yetkilendirme
+AutoMapper
+Yardımcı
+Entity-DTO dönüşüm otomasyonu
+Scalar / OAS 3.0.1
+Dokümantasyon
+API dokümantasyon ve test ortamı
+Docker
+Altyapı
+PostgreSQL ve Redis konteyner yönetimi
+Tablo 1. Projede Kullanılan Başlıca Teknolojiler
+
+4.2. Sistem Mimarisi
+Projenin arka uç tarafının, .NET Core Web API kullanılarak geliştirilmesi öngörülmüştür. Uygulama mimarisinin, sürdürülebilirlik, test edilebilirlik ve ölçeklenebilirlik hedefleri doğrultusunda Clean Architecture yaklaşımı esas alınarak tasarlanması planlanmıştır. Bu mimari yapı kapsamında sistemin Presentation (API), Application, Domain ve Infrastructure katmanlarına ayrılması; katmanlar arası bağımlılıkların azaltılması ve iş kurallarının merkezi bir yapıda toplanması hedeflenmektedir (Martin, 2017).
+Clean Architecture yaklaşımında her katmanın sorumluluğu net biçimde tanımlanmıştır. Domain katmanı, iş kurallarını ve varlıkları barındırırken dış dünyadan tamamen bağımsızdır. Application katmanı, kullanım senaryolarını ve servis arayüzlerini içermektedir. Infrastructure katmanı, veri tabanı erişimi, harici servisler ve diğer teknik bağımlılıkları kapsamaktadır. Presentation katmanı ise API denetleyicileri aracılığıyla dış dünya ile iletişimi yönetmektedir.
+Veri erişim süreçlerinin yönetimi için Entity Framework Core kullanılması planlanmıştır. Repository ve Unit of Work tasarım desenlerinden yararlanılması öngörülmektedir. Bu yaklaşım sayesinde veri işlemlerinin tek bir işlem bütünlüğü içerisinde ele alınması ve işlem tutarlılığının sağlanması hedeflenmektedir (Fowler, 2018). Nesneler arası veri dönüşümlerinin ise AutoMapper aracılığıyla Entity nesneleri ile veri transfer nesneleri (DTO) arasında otomatik olarak gerçekleştirilmesi planlanmaktadır.
+Sistem performansını artırmak amacıyla Redis tabanlı bir önbellek mekanizmasının kullanılması öngörülmektedir. Özellikle yapay zeka destekli öneri sistemine ait hesaplanan sonuçların Redis üzerinde tutulmasıyla tekrar eden işlemlerin azaltılması ve sistem yanıt sürelerinin iyileştirilmesi hedeflenmektedir.
+
+Şekil 1. Sistem Mimarisi Genel Görünümü — Kuş Bakışı (Proje Diyagramı, 2026)
+4.3. Veri Tabanı Tasarımı
+Veri tabanı yönetim sistemi olarak PostgreSQL tercih edilmiştir. PostgreSQL'in açık kaynaklı yapısı, yüksek performansı ve ilişkisel veri modelleriyle uyumu, proje gereksinimleri açısından uygun bir çözüm sunmaktadır. Sistem kapsamında kullanıcılar, ürünler, takas işlemleri ve geçmiş takas verileri ilişkisel veri yapıları kullanılarak modellenmiştir.
+Geliştirilen veri tabanı şeması incelendiğinde, ASP.NET Core Identity'ye ait kullanıcı yönetim tablolarının (AspNetUsers, AspNetRoles, AspNetUserClaims ve diğerleri) yanı sıra projeye özgü fonksiyonel tablolar da yer almaktadır. Bu tablolar arasında ilan yönetimi için Listings ve ListingImages, etkileşim için Conversations, Messages ve MessageReads, öneri sistemi için ListingEmbeddings ve UserInteractions, takas sürecini desteklemek için SwipeHistories ve TradeRequests, kullanıcı güvenliği için RefreshTokens ve yapay zeka işaretleme için AIFlags tabloları bulunmaktadır.
+4.4. API Dokümantasyonu ve Servis Mimarisi
+Arka uç tarafında geliştirilen servisler, RESTful API prensiplerine uygun olarak tasarlanmıştır. Fielding (2000) tarafından tanımlanan REST mimarisi, HTTP protokolü üzerinden kaynak odaklı iletişimi esas almakta ve ölçeklenebilir, durumsuz bir yapı sunmaktadır. Geliştirilen API'ler bu prensipler doğrultusunda yapılandırılmış ve OAS 3.0.1 standardıyla dokümante edilmiştir.
+Scalar aracı kullanılarak hazırlanan API dokümantasyonu; AI, Auth, Categories, Conversations, Favorites, Listings ve diğer modüllere ait endpoint'leri kapsamlı biçimde içermektedir. Özellikle yapay zeka modülü altında yer alan /api/AI/recommendations (GET) ve /api/AI/flags (GET/POST) endpoint'leri, öneri sisteminin temel ara yüzlerini oluşturmaktadır.
+4.5. Güvenlik Mimarisi
+Kullanıcı kimlik doğrulama ve yetkilendirme işlemlerinin, sistem güvenliğini sağlamak amacıyla JWT (JSON Web Token) tabanlı bir yapı kullanılarak gerçekleştirilmesi planlanmıştır. Jones ve diğerleri (2015) tarafından RFC 7519 standardıyla tanımlanan JWT yapısı, başlık (header), veri yükü (payload) ve imza (signature) olmak üzere üç bölümden oluşmaktadır. Kullanıcı giriş işlemi sonrasında üretilecek erişim anahtarlarının, mobil istemci tarafından sonraki API isteklerinde kullanılması yoluyla yetkilendirme sürecinin sağlanması hedeflenmektedir.
+Erişim anahtarının süresi dolduğunda yenileme anahtarı (refresh token) mekanizmasının devreye girmesi öngörülmüştür. Yenileme anahtarları, veri tabanındaki RefreshTokens tablosunda güvenli biçimde saklanmakta ve /api/Auth/refresh endpoint'i aracılığıyla yeni erişim anahtarı üretilmesi mümkün kılınmaktadır. Ayrıca /api/Auth/revoke endpoint'i ile aktif oturumların sona erdirilmesi sağlanmaktadır.
+4.6. Yapay Zeka Öneri Sistemi
+Yapay zeka destekli öneri sistemi, içerik tabanlı filtreleme yaklaşımını esas almakta ve ilan açıklamalarından elde edilen vektör temsilleri (embedding) ile kullanıcı etkileşim geçmişini birlikte değerlendirmektedir. İlan açıklamaları metin vektörlerine dönüştürülerek ListingEmbeddings tablosunda saklanmakta; bu vektörler arasındaki kosinüs benzerliği hesaplanarak en uygun takas eşleşmeleri belirlenmektedir.
+Öneri mekanizmasının arka uç katmanında modüler bir yapı olarak konumlandırılması ve ilerleyen aşamalarda daha gelişmiş yapay zeka modelleriyle genişletilebilecek şekilde tasarlanması öngörülmektedir. Hesaplanan öneri sonuçları Redis önbellekleme mekanizmasında tutularak tekrarlayan benzerlik hesaplamalarından kaçınılmakta ve sistem yanıt süresi minimize edilmektedir.
+Kullanıcı etkileşimleri (swipe hareketleri, favorileme, takas teklifleri) UserInteractions ve SwipeHistories tablolarında izlenmekte; bu veriler öneri sisteminin ilerleyen sürümlerinde işbirlikçi filtreleme bileşeninin beslenmesinde kullanılmak üzere toplanmaktadır. AIFlags tablosu ise uygunsuz ilan tespiti ve içerik moderasyonu amacıyla yapay zeka işaretleme verilerini barındırmaktadır.
+5. MEVCUT DURUM VE GELİŞTİRME AŞAMALARI
+Bu bölümde, projenin birinci dönem kapsamında gerçekleştirilen geliştirme çalışmaları ayrıntılı biçimde ele alınmaktadır. Arka uç servislerinin oluşturulması, veri tabanı ve altyapı kurulumu ile mobil uygulama arayüzlerinin kodlanmasını kapsayan bu aşamalar, ekran görüntüleri ve teknik açıklamalarla desteklenmektedir.
+5.1. Arka Uç (Backend) Geliştirme Süreci
+Arka uç geliştirme sürecinde .NET Core Web API çerçevesi kullanılarak Clean Architecture prensiplerine uygun katmanlı bir yapı oluşturulmuştur. Geliştirilen servisler, OAS 3.0.1 standardına uygun biçimde Scalar dokümantasyon aracı ile belgelenmiştir. Aşağıdaki şekilde görüldüğü üzere API, modüler bir yapıda tasarlanmış olup AI, Auth, Categories, Conversations, Favorites, Listings ve diğer modüllere ait endpoint'ler düzenli biçimde sınıflandırılmıştır.
+
+
+Şekil 2. API Dokümantasyonu — Scalar / OAS 3.0.1 (Proje Ekran Görüntüsü, 2026)
+
+Yapay zeka modülü (AI) altında yer alan /api/AI/recommendations endpoint'i, kullanıcıya kişiselleştirilmiş takas önerileri sunmaktadır. Bu endpoint, ilan vektörleri ve kullanıcı etkileşim geçmişini birlikte değerlendirerek en uygun eşleşmeleri döndürmektedir. /api/AI/flags endpoint'i ise içerik moderasyonu amacıyla uygunsuz ilan tespitine yönelik işaretleme verilerini yönetmektedir.
+Auth modülü kapsamında /api/Auth/register, /api/Auth/login, /api/Auth/refresh ve /api/Auth/revoke endpoint'leri geliştirilmiştir. Bu endpoint'ler aracılığıyla kullanıcı kaydı, giriş, oturum yenileme ve oturum sonlandırma işlemleri güvenli biçimde yürütülmektedir. Listings modülü ilan oluşturma, listeleme, güncelleme ve silme işlemlerini; Conversations ve Messages modülleri ise kullanıcılar arası mesajlaşma altyapısını sağlamaktadır. Favorites modülü favori ilan yönetimini; Categories modülü kategori yönetimini desteklemektedir.
+5.2. Veri Tabanı ve Altyapı Kurulumu
+Veri tabanı ve önbellekleme altyapısı, Docker konteyner teknolojisi kullanılarak izole ve yönetilebilir bir ortamda kurulmuştur. Aşağıdaki şekilde görüldüğü üzere, TakasDB adlı PostgreSQL konteyneri ve TakasRedis adlı Redis konteyneri başarıyla çalıştırılmaktadır. TakasDB konteyneri 172.17.0.3 IP adresiyle 54785:5432 port üzerinden, TakasRedis konteyneri ise 172.17.0.2 IP adresiyle 54760:6378 port üzerinden erişime açık durumdadır.
+
+
+Şekil 3. Docker Konteyner Durumları — TakasDB (PostgreSQL) ve TakasRedis (Proje Ekran Görüntüsü, 2026)
+
+PostgreSQL veri tabanı şeması, Entity Framework Core Migrations aracılığıyla yönetilmekte olup aşağıdaki şekilde görüntülenen tablo yapısı projenin tüm fonksiyonel gereksinimlerini karşılamaktadır. ASP.NET Identity tablolarının yanı sıra Listings, ListingImages, ListingEmbeddings, Conversations, Messages, MessageReads, Favorites, SwipeHistories, TradeRequests, UserInteractions, AIFlags ve Categories tablolarından oluşan kapsamlı bir şema oluşturulmuştur.
+
+
+Şekil 4. TakasDB PostgreSQL Veri Tabanı Şeması (Proje Ekran Görüntüsü, 2026)
+
+Şekil 5. TakasDB Varlık-İlişki (ER) Diyagramı (Proje Diyagramı, 2026)
+
+Şema incelendiğinde özellikle dikkat çekici olan nokta, ListingEmbeddings tablosunun varlığıdır. Bu tablo, yapay zeka öneri sistemi için ilan açıklamalarından üretilen metin vektörlerini barındırmakta ve benzerlik hesaplamalarının temelini oluşturmaktadır. UserInteractions tablosu ise kullanıcıların ilanlarla olan etkileşimlerini kayıt altında tutarak öneri sisteminin kişiselleştirme yeteneğini desteklemektedir.
+5.3. Mobil Uygulama Ekranları
+Mobil uygulama, React Native çerçevesi kullanılarak Android ve iOS platformlarını destekleyecek şekilde geliştirilmektedir. Geliştirilen uygulama; kimlik doğrulama, ilan keşfetme, ilan detayı görüntüleme, yapay zeka destekli benzer ilan önerileri, mesajlaşma, favoriler yönetimi ve profil yönetimi modüllerini kapsamaktadır.
+5.3.1. Kimlik Doğrulama Ekranları
+Uygulama, "takas — İkinci el, yeni değer" sloganıyla konumlandırılmış özgün bir marka kimliğine sahiptir. Giriş ekranında kullanıcılar e-posta adresi ve parola girerek sisteme erişebilmektedir. Yeni kullanıcılar ise kayıt ekranı üzerinden kullanıcı adı, e-posta ve parola bilgilerini girerek platforma ücretsiz biçimde katılabilmektedir. Her iki ekranda da tutarlı mor/mavi renk paleti ve temiz tipografi kullanılmaktadır.
+
+      
+Şekil 6. Giriş Ekranı (sol) ve Kayıt Ekranı (sağ) (Proje Ekran Görüntüsü, 2026)
+
+5.3.2. Kesfet Ekranı ve İlan Listeleme
+Uygulamanın ana ekranı olan Kesfet sayfasında, aktif ilanlar kart şeklinde listelenmektedir. Kullanıcılar arama çubuğu aracılığıyla ilan araması yapabilmekte, Elektronik, Giyim, Kitap gibi kategori filtreleri ile görüntülenen ilanları daraltabilmektedir. İlan kartları üzerinde ürün görseli, başlık ve konum bilgisi yer almakta; kullanıcılar kartlara tıklayarak ilan detaylarına ulaşabilmektedir. Alt navigasyon çubuğunda Kesfet, Favoriler, Takaslarım, Mesajlar ve Profil sekmeleri yer almaktadır.
+
+
+Şekil 7. Kesfet Ekranı — İlan Listeleme ve Kategori Filtreleme (Proje Ekran Görüntüsü, 2026)
+
+5.3.3. İlan Detayı ve Yapay Zeka Destekli Öneriler
+İlan detay ekranı, seçilen ilanın fotoğrafını, başlığını, kategori etiketini, konum bilgisini ve açıklamasını kullanıcıya sunmaktadır. Bu ekranda yer alan "Takas Öner" butonu aracılığıyla kullanıcı, mevcut ilan sahibine takas teklifinde bulunabilmektedir. "Mesaj Gönder" butonu ise tarafların doğrudan mesajlaşmasını mümkün kılmaktadır.
+Ekranın alt bölümünde yer alan "Benzer İlanlar" modülü, yapay zeka destekli öneri sisteminin kullanıcı arayüzündeki yansımasını oluşturmaktadır. Bu modül, mevcut ilanla içerik ve kategori açısından benzer ilanları eşleşme yüzdesi ile birlikte listelemektedir. Geliştirme sürecindeki test verilerinde gözlemlenen yüksek eşleşme yüzdelerinin, parametre kalibrasyonu tamamlandıktan sonra gerçekçi değerlere ulaşması öngörülmektedir.
+
+      
+Şekil 8. İlan Detayı (sol) ve Benzer İlanlar / Yapay Zeka Önerisi (sağ) (Proje Ekran Görüntüsü, 2026)
+
+5.3.4. Favoriler Ekranı
+Favoriler ekranı, kullanıcının kalp simgesine tıklayarak favorilediği ilanları listelemektedir. Her favorilenen ilan için küçük resim, başlık, açıklama özeti, konum ve durum (Aktif/Pasif) bilgileri görüntülenmektedir. Bu ekran aracılığıyla kullanıcılar ilgilendikleri ilanları kolayca takip edebilmekte ve doğrudan erişim sağlayabilmektedir. Arka uçtaki Favorites tablosu ile tam entegrasyon sağlanmış durumdadır.
+
+
+Şekil 9. Favoriler Ekranı (Proje Ekran Görüntüsü, 2026)
+
+5.3.5. Mesajlaşma Ekranları
+Mesajlar modülü, kullanıcılar arasındaki takas müzakerelerini desteklemek amacıyla geliştirilmiş bir anlık mesajlaşma altyapısı sunmaktadır. Mesajlar listesi ekranında tüm aktif konuşmalar sıralanmakta, yeni mesaj bildirimleri rozetlerle gösterilmektedir. Mesaj detay ekranında ise kullanıcılar takas tekliflerini ve sorularını iletebilmektedir.
+Test sürecindeki konuşma ekranında, kullanıcının "sahibinden göl" ilanıyla ilgilendiğini belirterek takas teklifi olarak "manzara go" ilanını önerdiği görülmektedir. Bu örnek, uygulamanın mesajlaşma ile takas süreçlerini entegre biçimde desteklediğini ortaya koymaktadır.
+
+      
+Şekil 10. Mesajlar Listesi (sol) ve Mesaj Detayı (sağ) (Proje Ekran Görüntüsü, 2026)
+
+5.3.6. İlan Oluşturma Ekranı
+İlan Oluştur ekranında kullanıcılar, takas teklifine konu olacak ürünlerini platforma ekleyebilmektedir. Bu ekran üzerinden en fazla 5 fotoğraf yüklenebilmekte, Giyim, Elektronik veya Kitap kategorilerinden biri seçilebilmekte; başlık, açıklama, şehir ve ilçe bilgileri girilebilmektedir. İlan Oluştur butonuna tıklanmasının ardından ilan arka uç API'sine iletilmekte ve veri tabanına kaydedilmektedir. Kategori seçimi, öneri sisteminin sonraki adımda bu ilanla ilgili benzer ilanları eşleştirebilmesi için kritik bir giriş parametresi işlevi görmektedir.
+
+
+Şekil 11. İlan Oluştur Ekranı (Proje Ekran Görüntüsü, 2026)
+
+5.3.7. Profil Yönetimi Ekranı
+Profil ekranı, kullanıcının adını, e-posta adresini ve doğrulanmış hesap rozetini görüntülemektedir. Aktif ilan sayısı, gerçekleştirilen takas sayısı ve favorilenen ilan sayısı gibi istatistikler özet kart biçiminde sunulmaktadır. Kullanıcılar bu ekran aracılığıyla yeni ilan ekleyebilmekte, mevcut ilanlarını listeleyebilmekte, profil bilgilerini düzenleyebilmekte, bildirim ve gizlilik ayarlarına erişebilmekte, uygulamayı değerlendirebilmekte ve arkadaşlarına önerebilmektedir.
+
+
+Şekil 12. Profil Yönetimi Ekranı (Proje Ekran Görüntüsü, 2026)
+
+6. İŞ-ZAMAN TABLOSU
+Projenin iki dönemlik süreç içerisinde planlandığı iş paketleri ve bu paketlere ait tamamlanma durumları aşağıdaki tabloda özetlenmektedir. Birinci dönem faaliyetleri büyük ölçüde tamamlanmış olup ikinci dönem çalışmaları kapsamında yapay zeka öneri sisteminin iyileştirilmesi, mobil uygulama entegrasyonunun tamamlanması ve kapsamlı test süreçlerinin yürütülmesi planlanmaktadır.
+
+İş Paketi
+1. Dönem
+2. Dönem
+Durum
+Literatür ve benzer uygulama incelemesi
+X
+
+Tamamlandı
+Sistem analizi ve mimari tasarım
+X
+
+Tamamlandı
+.NET Core Web API ve mimari yapının oluşturulması
+
+X
+Tamamlandı
+Entity, tablo ve veri tabanı yapısının oluşturulması
+
+X
+Tamamlandı
+JWT Authentication ve güvenlik yapılandırması
+
+X
+Tamamlandı
+Yapay Zeka Öneri Sisteminin Geliştirilmesi
+
+X
+Devam Ediyor
+Mobil uygulama geliştirme (React Native)
+
+X
+Kısmen Tamamlandı
+Öneri sistemi entegrasyonu ve kalibrasyon
+
+X
+Devam Ediyor
+Test ve hata düzeltmeleri
+
+X
+Planlandı
+Dokümantasyon ve final rapor hazırlığı
+
+X
+Planlandı
+Tablo 2. Bitirme Projesinin Tümüne Ait İş-Zaman Tablosu
+
+Tabloda görüldüğü üzere, birinci dönem kapsamında öngörülen tüm faaliyetler tamamlanmış; ikinci dönem kapsamındaki teknik geliştirme faaliyetlerinin de önemli bir kısmı hayata geçirilmiştir. Yapay zeka öneri sisteminin kalibrasyon çalışmaları ve mobil uygulama ile arka uç arasındaki tam entegrasyon ise sürmekte olup bu çalışmaların projenin ikinci dönem hedef takvimi dahilinde tamamlanması planlanmaktadır.
+7. ZORUNLU YAPILACAKLAR VE KRİTİK BİLEŞENLER
+Bu bitirme projesinin başarıyla tamamlanabilmesi için belirli aşamaların planlı ve sistematik biçimde gerçekleştirilmesi gerekmektedir. Projenin tamamlanması açısından kritik öneme sahip olan bileşenler ve yapılması zorunlu faaliyetler bu bölümde ele alınmaktadır.
+7.1. Yapay Zeka Öneri Sisteminin Tamamlanması
+Öneri mekanizmasının takas platformuna uygun bir yapıda modellenmesi; ürün kategorileri, ürün açıklamaları, kullanıcıların geçmiş takas davranışları ve konum bilgilerinin öneri sürecinde kullanılacak şekilde yapılandırılması zorunludur. Tasarlanan öneri sisteminin doğruluğunun ve tutarlılığının farklı senaryolar altında test edilmesi ve elde edilen sonuçların değerlendirilmesi planlanmaktadır. Mevcut durumda gözlemlenen parametre kalibrasyon sorununun giderilerek eşleşme yüzdelerinin gerçekçi değerlere çekilmesi öncelikli görev olarak belirlenmiştir.
+7.2. Mobil Uygulama ve Arka Uç Entegrasyonunun Tamamlanması
+Mobil uygulama ile arka uç servisleri arasındaki entegrasyonun tüm modüller için eksiksiz biçimde tamamlanması gerekmektedir. Bu kapsamda aşağıdaki faaliyetlerin gerçekleştirilmesi zorunludur:
+	•	Takas teklifi akışının (TradeRequests) mobil uygulamada eksiksiz biçimde desteklenmesi
+	•	Takaslarım sekmesinin (SwipeHistories, TradeRequests) geliştirilmesi ve test edilmesi
+	•	Push bildirim altyapısının kurulması ve test edilmesi
+	•	Gerçek zamanlı mesajlaşma altyapısının (WebSocket veya SignalR) entegrasyonu
+	•	Uygulamanın farklı ekran boyutlarında duyarlı (responsive) görünümünün doğrulanması
+7.3. Test ve Performans Analizi
+Geliştirilecek sistemin güvenilirliğinin değerlendirilmesi amacıyla tüm modüllerin entegre bir şekilde test edilmesi; performans, güvenlik ve olası hata senaryolarının değerlendirilmesi planlanmaktadır. Birim testleri, entegrasyon testleri ve uçtan uca test senaryolarının hazırlanması zorunludur.
+7.4. Dokümantasyon ve Final Raporlama
+Kullanıcıların sistemi daha kolay anlayıp kullanabilmesi için kullanıcı kılavuzunun hazırlanması, geliştirilen API servislerinin teknik dokümantasyonunun oluşturulması ve proje sürecinde elde edilen tüm çıktıların akademik kurallara uygun şekilde final rapor haline getirilmesi zorunludur.
+8. ALTERNATİF ÇÖZÜMLER (B PLANI)
+Proje sürecinde karşılaşılabilecek olası sorunların çalışmanın ilerleyişini aksatmaması amacıyla çeşitli alternatif çözüm yaklaşımları belirlenmiştir.
+8.1. Yapay Zeka Öneri Sistemine Yönelik Alternatifler
+Öneri sonuçlarının yeterince tatmin edici olmaması ihtimaline karşı parametre ağırlıklarının yeniden düzenlenmesi planlanmaktadır. Gerekli görülmesi halinde, daha basit ve daha kararlı bir öneri yaklaşımına geçilerek sistemin güvenilirliğinin artırılması hedeflenmektedir. Mevcut durumda test verilerinde gözlemlenen yüksek eşleşme yüzdesinin normalizasyon işlemleri ve eşik değeri ayarlamaları yoluyla gerçekçi aralıklara çekilmesi öngörülmektedir.
+İleri düzey makine öğrenmesi modellerinin uygulanmasında teknik güçlüklerle karşılaşılması durumunda, TF-IDF ve kosinüs benzerliği tabanlı basit içerik tabanlı filtrelemenin temel sistem olarak korunması ve bu sisteme işbirlikçi bileşenin kademeli olarak eklenmesi alternatif yaklaşım olarak değerlendirilmektedir.
+8.2. Yazılım Geliştirme Sürecine Yönelik Alternatifler
+Yazılım geliştirme sürecinde arka uç veya mobil uygulama tarafında teknik sorunlarla karşılaşılması durumunda, modüler mimari sayesinde sorunlu bileşenlerin izole edilerek yeniden düzenlenmesi planlanmaktadır. Geliştirme sürecinin sadeleştirilerek sistemin temel fonksiyonlarına odaklanılması alternatif bir yaklaşım olarak değerlendirilmektedir. Gerçek zamanlı mesajlaşma altyapısında SignalR yerine HTTP uzun yoklama (long polling) yönteminin kullanılması, altyapısal sorunlar yaşanması durumunda uygulanabilecek bir çözüm olarak belirlenmiştir.
+8.3. Performans ve Güvenlik Sorunlarına Yönelik Alternatifler
+Sistem yanıt sürelerinin beklentilerin altında kalması durumunda Redis önbellek kullanımının genişletilmesi ve gereksiz veri işlemlerinin azaltılması yoluyla performans optimizasyonu yapılması planlanmaktadır. JWT tabanlı yapıda beklenmeyen problemlerle karşılaşılması halinde, Auth0 veya Firebase gibi dış kimlik doğrulama servislerinin sisteme entegre edilmesi öngörülmektedir.
+8.4. Zaman Yönetimine Yönelik Alternatifler
+Dokümantasyon ve raporlama aşamasında zaman kısıtı yaşanması durumunda, teknik ve kullanıcı dokümantasyonlarının temel işlevlere odaklanacak şekilde sadeleştirilmesi ve dokümantasyon çalışmalarına proje sürecinin erken aşamalarında başlanması planlanmaktadır. Bu alternatif yaklaşımlar, proje sürecinde karşılaşılabilecek zorlukların etkin biçimde yönetilmesine ve çalışmanın planlanan hedefler doğrultusunda başarıyla tamamlanmasına katkı sağlamayı amaçlamaktadır.
+9. SONUÇ VE DEĞERLENDİRME
+Bu ara rapor, "Yapay Zeka Destekli Mobil Takas Platformu" başlıklı lisans bitirme projesinin birinci dönem çalışmalarını kapsamlı biçimde belgelemektedir. Gerçekleştirilen çalışmalar incelendiğinde, projenin teknik altyapısının büyük ölçüde oluşturulduğu ve uygulamanın temel işlevselliklerinin hayata geçirildiği görülmektedir.
+Arka uç geliştirme sürecinde, Clean Architecture prensiplerine uygun katmanlı bir .NET Core Web API mimarisi kurulmuş; Entity Framework Core, Repository ve Unit of Work tasarım desenleri, AutoMapper ve JWT kimlik doğrulama mekanizması başarıyla entegre edilmiştir. Docker ortamında çalıştırılan PostgreSQL (TakasDB) ve Redis (TakasRedis) konteynerlerinin stabil biçimde hizmet verdiği doğrulanmıştır.
+Veri tabanı şeması, sistemin tüm fonksiyonel gereksinimlerini karşılayacak genişlikte tasarlanmış olup ListingEmbeddings ve UserInteractions tablolarının varlığı, yapay zeka öneri sisteminin veri altyapısının hazır olduğuna işaret etmektedir. OAS 3.0.1 standardında hazırlanan API dokümantasyonu, AI, Auth, Categories, Conversations, Favorites ve Listings dahil olmak üzere tüm modülleri kapsamlı biçimde belgelemektedir.
+Mobil uygulama tarafında React Native kullanılarak Kesfet, İlan Detayı, Benzer İlanlar, Favoriler, Mesajlar, İlan Oluştur ve Profil ekranları geliştirilmiştir. Giriş ve kayıt ekranları ile kimlik doğrulama akışı işlevsel durumdadır. Uygulamanın genel arayüz tasarımının temiz, kullanıcı dostu ve marka kimliğine uygun bir yapıya sahip olduğu gözlemlenmiştir.
+İkinci dönemde ele alınması gereken başlıca geliştirme ihtiyaçları şu şekilde özetlenebilir: yapay zeka öneri sisteminin parametre kalibrasyonunun tamamlanması, Takaslarım sekmesinin hayata geçirilmesi, gerçek zamanlı mesajlaşma ve push bildirim altyapısının kurulması, uçtan uca test senaryolarının uygulanması ve final raporun hazırlanması.
+Genel bir değerlendirme yapıldığında, projenin öngörülen zaman çizelgesine uygun ilerlediği ve hedeflenen çıktıların büyük bölümünün gerçekleştirildiği görülmektedir. Yapay zeka destekli öneri sistemlerinin dijital takas platformlarına entegrasyonunu ele alan bu çalışmanın, hem akademik hem de pratik açıdan özgün bir katkı sunacağı değerlendirilmektedir.
+10. KAYNAKÇA
+[1] Adomavicius, G., & Tuzhilin, A. (2005). Toward the next generation of recommender systems: A survey of the state-of-the-art. IEEE Transactions on Knowledge and Data Engineering, 17(6), 734-749. https://doi.org/10.1109/TKDE.2005.99
+
+[2] Aggarwal, C. C. (2016). Recommender systems: The textbook. Springer. https://doi.org/10.1007/978-3-319-29659-3
+
+[3] Burke, R. (2002). Hybrid recommender systems: Survey and experiments. User Modeling and User-Adapted Interaction, 12(4), 331-370. https://doi.org/10.1023/A:1021240730564
+
+[4] Chouhan, A. (2025). Redis introduction. GeeksforGeeks. https://www.geeksforgeeks.org/system-design/introduction-to-redis-server/
+
+[5] Fadatare, R. (2025). What is REST (Representational State Transfer). AWS Plain English. https://aws.plainenglish.io/what-is-rest-representational-state-transfer-a-complete-beginner-guide-257f12b042df
+
+[6] Fielding, R. T. (2000). Architectural styles and the design of network-based software architectures (Doctoral dissertation, University of California, Irvine).
+
+[7] Fowler, M. (2018). Patterns of enterprise application architecture. Addison-Wesley.
+
+[8] It World Education. (2025). Repository pattern & unit of work. Medium. https://medium.com/@itworldeducation/repository-pattern-unit-of-work-5b2c045fda9a
+
+[9] Jones, M., Bradley, J., & Sakimura, N. (2015). JSON Web Token (JWT) (RFC 7519). https://www.rfc-editor.org/rfc/rfc7519
+
+[10] Karlihan, F. (2025). Clean Architecture nedir? Katmanlarin sorumluluklari ve dogru ayrim mantigi. Medium. https://medium.com/@faikkarlihan/clean-architecture-nedir
+
+[11] Martin, R. C. (2017). Clean architecture: A craftsman's guide to software structure and design. Prentice Hall.
+
+[12] Meta Platforms, Inc. (2024). React Native documentation. https://reactnative.dev/docs/getting-started
+
+[13] Microsoft. (2024). ASP.NET Core web API documentation. https://learn.microsoft.com/aspnet/core/web-api
+
+[14] Microsoft. (2024). Entity Framework Core documentation. https://learn.microsoft.com/ef/core
+
+[15] Neekhara, A. (2025). JSON Web Token (JWT). GeeksforGeeks. https://www.geeksforgeeks.org/web-tech/json-web-token-jwt/
+
+[16] PostgreSQL Global Development Group. (2024). PostgreSQL documentation. https://www.postgresql.org/docs/
+
+[17] Redis Ltd. (2024). Redis documentation. https://redis.io/docs/
+
+[18] Ricci, F., Rokach, L., & Shapira, B. (2015). Recommender systems handbook (2nd ed.). Springer. https://doi.org/10.1007/978-1-4899-7637-6
+
+[19] Sharma, R. (2025). Building AI recommendation systems to boost customer engagement. Markovate. https://markovate.com/ai-recommendation-systems/
+
+[20] Somerville, I. (2016). Software engineering (10th ed.). Pearson Education.

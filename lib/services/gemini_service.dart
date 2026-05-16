@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GeminiService {
-  static const String _apiKey = 'AIzaSyBuJ4yfoG5BJZqiADOVj0ImwEvdJxevLZs';
+  static const String _apiKey = 'AIzaSyBDO4zNAzA68H_cQBu-9lzxEgHn2JNgjMQ';
   static const String _endpoint =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$_apiKey';
 
@@ -84,7 +84,7 @@ class GeminiService {
     final prompt = '''
 Ürün: $urunAdi
 
-Bu ürünün içeriği nedir? karbon ayak izi ve sürdürülebilirlik açısından bilgi verir misin? Hangi malzemelerden oluşuyor? Kullanıcılar bu ürün hakkında neler düşünüyor? (Varsa olumlu ve olumsuz yorumlardan örnekler verilebilir.) Karbon ayak izi nedir ve üretimi çevreye nasıl etki eder? Sürdürülebilirlik açısından bilgi verir misin? Kısa ve öz bir şekilde anlat.
+Bu ürünün içeriği nedir? zararlı madde bulunduruyor mu ? kodlarını yazar mısın ?   karbon ayak izi ve sürdürülebilirlik açısından bilgi verir misin? Hangi malzemelerden oluşuyor? Kullanıcılar bu ürün hakkında neler düşünüyor? (Varsa olumlu ve olumsuz yorumlardan örnekler verilebilir.) Karbon ayak izi nedir ve üretimi çevreye nasıl etki eder? Sürdürülebilirlik açısından bilgi verir misin? Kısa ve öz bir şekilde anlat.
 ''';
 
     try {

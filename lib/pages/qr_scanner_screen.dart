@@ -104,7 +104,7 @@ class _UrunBilgisiAlmaEkranState extends State<UrunBilgisiAlmaEkran> {
                 delay: const Duration(milliseconds: 300),
                 duration: const Duration(milliseconds: 1300),
                 child: Text(
-                  'Ürünün QR kodunu okutup karbon ayak izini öğrenin.',
+                  'Ürünün QR kodunu okutup karbon ayak izini ve E kodlarını öğrenin.',
                   style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
                 ),
               ),

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GeminiService {
-  static const String _apiKey = 'AIzaSyBDO4zNAzA68H_cQBu-9lzxEgHn2JNgjMQ';
-  static const String _endpoint =
+  static String get _apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
+  static String get _endpoint =>
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$_apiKey';
 
   /// Malzemelere göre yemek tarifi öneren fonksiyon

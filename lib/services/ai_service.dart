@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AIService {
-  // Mac emülatörü kullanıyorsan localhost için 'http://127.0.0.1:8000/tahmin' kullanılır.
-  // Gerçek cihazla test ediyorsan Mac'inin lokal IP adresini yazmalısın.
-  static const String _apiUrl = 'http://127.0.0.1:8000/tahmin';
+  // Render'dan alınan canlı internet adresi
+  static const String _apiUrl = 'https://ecolife-ai-backend.onrender.com/tahmin';
 
   Future<Map<String, dynamic>> kalpRiskiTahminEt(Map<String, dynamic> hastaVerileri) async {
     try {

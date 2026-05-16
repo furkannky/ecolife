@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../widgets/organic_background.dart';
 import '../widgets/glass_card.dart';
 import '../constants/app_theme.dart';
@@ -85,7 +86,7 @@ class _RecycleMapScreenState extends State<RecycleMapScreen> {
   }
 
   Future<void> _fetchRecyclingCenters(LatLng location, {String searchKey = "geri dönüşüm", int retryCount = 0}) async {
-    const apiKey = 'AIzaSyBlZZrrkvL3Zse2POWo9v4dmaivmkLGvwo'; // Maps API Anahtarı
+    final apiKey = dotenv.env['MAPS_API_KEY'] ?? ''; // Maps API Anahtarı
     final keyword = Uri.encodeComponent(searchKey);
     
     final url = Uri.parse(

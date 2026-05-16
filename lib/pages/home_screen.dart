@@ -70,6 +70,7 @@ class HomeScreen extends StatelessWidget {
                 _menuKarti(context, "Ürün Tarayıcı", Icons.qr_code_scanner_rounded, "/urun-bilgisi", Colors.purple.shade400, delay: 600),
                 _menuKarti(context, "Profilim", Icons.person_rounded, "/profil", Colors.pink.shade400, delay: 700),
                 _menuKarti(context, "Skorlarım", Icons.bar_chart_rounded, "/skor", Colors.red.shade400, delay: 800),
+                _menuKarti(context, "Sağlık Asistanı", Icons.favorite_rounded, "/saglik", Colors.redAccent, delay: 900),
               ]),
             ),
           ),

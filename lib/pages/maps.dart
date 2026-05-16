@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import '../services/gemini_service.dart';
 import '../widgets/organic_background.dart';
@@ -97,7 +98,7 @@ class _HaritaEkraniState extends State<HaritaEkrani> {
     });
 
     final keyword = Uri.encodeComponent(await GeminiService.extractKeywords(userQuery));
-    const apiKey = 'AIzaSyBlZZrrkvL3Zse2POWo9v4dmaivmkLGvwo';
+    final apiKey = dotenv.env['MAPS_API_KEY'] ?? '';
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
         '?location=${_currentLocation!.latitude},${_currentLocation!.longitude}'

@@ -3,8 +3,10 @@ import 'package:ecolife/pages/qr_scanner_screen.dart';
 import 'package:ecolife/pages/yemek_tahmin_screen.dart';
 import 'package:ecolife/pages/notifications_screen.dart';
 import 'package:ecolife/pages/recycle_map_screen.dart';
+import 'package:ecolife/pages/saglik_asistani_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:ecolife/pages/login_screen.dart';
 import 'package:ecolife/pages/home_screen.dart';
@@ -20,6 +22,7 @@ import 'package:ecolife/constants/app_theme.dart'; // YENİ TEMA EKLENDİ
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ); // Firebase başlatılıyor
@@ -60,6 +63,7 @@ class MyApp extends StatelessWidget {
         '/EcoLife Topluluğu': (context) => CommunityScreen(), 
         '/notifications': (context) => const NotificationsScreen(),
         '/geridonusum': (context) => const RecycleMapScreen(), // Yeni Özel Harita
+        '/saglik': (context) => const SaglikAsistaniScreen(),
       },
     );
   }

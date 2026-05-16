@@ -4,6 +4,7 @@ import '../widgets/organic_background.dart';
 import '../widgets/glass_card.dart';
 import '../constants/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login_screen.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
@@ -178,12 +179,95 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+              FadeInUp(
+                delay: const Duration(milliseconds: 800),
+                duration: const Duration(milliseconds: 800),
+                child: GlassCard(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                    onTap: () => _hesabiSil(context),
+                    child: const Row(
+                      children: [
+                        Icon(Icons.person_remove_rounded, color: Colors.redAccent, size: 28),
+                        SizedBox(width: 15),
+                        Text(
+                          "Hesabı Sil",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(height: 40),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _hesabiSil(BuildContext context) async {
+    final onayla = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Hesabı Sil', style: TextStyle(color: Colors.red)),
+        content: const Text('Hesabınızı kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz ve tüm kişisel verileriniz, rozetleriniz ve karbon ayak izi hedefiniz silinir.'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('İptal', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Sil', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+
+    if (onayla == true) {
+      try {
+        await FirebaseAuth.instance.currentUser?.delete();
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Güvenlik nedeniyle hesabınızı silmek için lütfen önce çıkış yapıp tekrar giriş yapın.'),
+                backgroundColor: Colors.orange,
+              ),
+            );
+          }
+        } else {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Bir hata oluştu: ${e.message}'), backgroundColor: Colors.red),
+            );
+          }
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Bilinmeyen bir hata oluştu: $e'), backgroundColor: Colors.red),
+          );
+        }
+      }
+    }
   }
 
   Widget _rozetSirasi(IconData icon, Color color, String metin) {

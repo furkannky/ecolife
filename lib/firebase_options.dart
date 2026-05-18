@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBrF0l6QBemU3deUlvGVOKxP3yht05pGpQ',
-    appId: '1:826710647401:android:f7932167e35aa55d8538f8',
+    appId: '1:826710647401:android:c9ea7ad56b2bdabc8538f8',
     messagingSenderId: '826710647401',
     projectId: 'ecolife-d6f17',
     storageBucket: 'ecolife-d6f17.firebasestorage.app',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBNswz5WzK79ooIES41HrlSu3BCllFngg4',
-    appId: '1:826710647401:ios:ec511be5b3ddb09c8538f8',
+    appId: '1:826710647401:ios:b6865e6bdf5281468538f8',
     messagingSenderId: '826710647401',
     projectId: 'ecolife-d6f17',
     storageBucket: 'ecolife-d6f17.firebasestorage.app',
-    iosBundleId: 'com.example.ecolife',
+    iosBundleId: 'com.furkan.ecolifeapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'ecolife-d6f17.firebaseapp.com',
     storageBucket: 'ecolife-d6f17.firebasestorage.app',
   );
+
 }

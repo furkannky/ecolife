@@ -46,7 +46,7 @@ class GeminiService {
   /// Yer araması için anahtar kelime önerisi döndüren fonksiyon
   static Future<String> extractKeywords(String query) async {
     final prompt =
-        'Kullanıcının aşağıdaki sorgusunu, Google Haritalar Yerler API\'sinde yakındaki yerleri aramak için kullanılabilecek bir veya birden fazla anahtar kelimeye dönüştür. '
+        'Kullanıcının aşağıdaki sorgusunu, Google Haritalar Yerler API\'sinde yakındaki yerleri aramak için kullanılabilecek bir veya birden fazla anahtar kelimeye dönüştür. olabilecek tüm konumları da ver. kelimeleri başka dillere göre çevirip uygun konumları ona göre de veer. '
         'Sadece anahtar kelimeleri virgülle ayırarak döndür. Sorgu: "$query"';
 
     try {
